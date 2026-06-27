@@ -51,7 +51,7 @@ const categories = ['All', ...new Set(posts.flatMap((p) => p.data.categories))];
               ))}
             </div>
             <h2 class="font-display font-black text-3xl md:text-4xl text-gray-900 dark:text-white mb-3 leading-tight">
-              <a href={`/blog/${featured.slug}`} class="hover:text-brand-600 dark:hover:text-brand-400 transition-colors">
+              <a href={`/blog/${featured.id}`} class="hover:text-brand-600 dark:hover:text-brand-400 transition-colors">
                 {featured.data.title}
               </a>
             </h2>
@@ -63,7 +63,7 @@ const categories = ['All', ...new Set(posts.flatMap((p) => p.data.categories))];
               <span>·</span>
               <span>{featured.data.readingTime || estimateReadingTime(featured.body || '')} min read</span>
             </div>
-            <a href={`/blog/${featured.slug}`} class="btn-primary self-start">
+            <a href={`/blog/${featured.id}`} class="btn-primary self-start">
               Read Article →
             </a>
           </div>
