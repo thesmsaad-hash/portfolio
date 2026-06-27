@@ -6,45 +6,205 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   title="Community" 
   description="Join SM SAAD's exclusive community of video editors, AI content creators, and motion graphics artists."
 >
-  <!-- Hero Section -->
-  <section class="pt-32 pb-10 bg-white dark:bg-surface-dark relative overflow-hidden border-b border-gray-100 dark:border-gray-800">
-    <div class="absolute inset-0 bg-brand-500/5 dark:bg-brand-500/10 pointer-events-none"></div>
-    <div class="absolute top-0 right-1/4 w-96 h-96 rounded-full blur-3xl bg-brand-600/10 pointer-events-none"></div>
-    
-    <div class="container-custom text-center relative z-10" data-animate>
-      <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-50 dark:bg-brand-900/20 text-brand-600 dark:text-brand-400 font-medium text-sm mb-6 border border-brand-200 dark:border-brand-800/30">
-        <span class="w-2 h-2 rounded-full bg-brand-500 animate-pulse"></span>
-        Community Forum
-      </div>
+  <div class="pt-24 min-h-screen bg-gray-50 dark:bg-surface-dark flex flex-col">
+    <div class="container-custom flex-grow py-8 max-w-7xl mx-auto flex flex-col lg:flex-row gap-6 h-full">
       
-      <h1 class="font-display font-black text-4xl md:text-5xl text-gray-900 dark:text-white mb-6">
-        The Creator <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-600 to-brand-400">Board</span>
-      </h1>
-      
-      <p class="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto leading-relaxed">
-        Ask questions, share your work, and discuss video editing and AI. 
-      </p>
-    </div>
-  </section>
+      <!-- Sidebar (Channels & Online Users) -->
+      <aside class="w-full lg:w-64 flex flex-col gap-6 flex-shrink-0">
+        
+        <!-- Channels -->
+        <div class="bg-white dark:bg-surface-800 rounded-2xl p-5 shadow-sm border border-gray-100 dark:border-gray-800/60">
+          <h3 class="text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-3 px-2">Channels</h3>
+          <ul class="space-y-1">
+            <li>
+              <a href="#" class="flex items-center gap-3 px-2 py-2 rounded-lg bg-brand-50 dark:bg-brand-900/20 text-brand-600 dark:text-brand-400 font-medium">
+                <span class="text-lg">📢</span> General
+              </a>
+            </li>
+            <li>
+              <a href="#" class="flex items-center gap-3 px-2 py-2 rounded-lg hover:bg-gray-50 dark:hover:bg-surface-700 text-gray-700 dark:text-gray-300 transition-colors">
+                <span class="text-lg">🎬</span> Editing
+              </a>
+            </li>
+            <li>
+              <a href="#" class="flex items-center gap-3 px-2 py-2 rounded-lg hover:bg-gray-50 dark:hover:bg-surface-700 text-gray-700 dark:text-gray-300 transition-colors">
+                <span class="text-lg">🤖</span> AI Tools
+              </a>
+            </li>
+            <li>
+              <a href="#" class="flex items-center gap-3 px-2 py-2 rounded-lg hover:bg-gray-50 dark:hover:bg-surface-700 text-gray-700 dark:text-gray-300 transition-colors">
+                <span class="text-lg">💡</span> Ideas
+              </a>
+            </li>
+            <li>
+              <a href="#" class="flex items-center gap-3 px-2 py-2 rounded-lg hover:bg-gray-50 dark:hover:bg-surface-700 text-gray-700 dark:text-gray-300 transition-colors">
+                <span class="text-lg">💬</span> Feedback
+              </a>
+            </li>
+            <li>
+              <a href="#" class="flex items-center gap-3 px-2 py-2 rounded-lg hover:bg-gray-50 dark:hover:bg-surface-700 text-gray-700 dark:text-gray-300 transition-colors">
+                <span class="text-lg">🚀</span> Showcase
+              </a>
+            </li>
+            <li>
+              <a href="#" class="flex items-center gap-3 px-2 py-2 rounded-lg hover:bg-gray-50 dark:hover:bg-surface-700 text-gray-700 dark:text-gray-300 transition-colors">
+                <span class="text-lg">❓</span> Help
+              </a>
+            </li>
+          </ul>
+        </div>
 
-  <!-- Community Board (Disqus Embed) -->
-  <section class="py-16 bg-white dark:bg-surface-dark min-h-screen">
-    <div class="container-custom max-w-4xl mx-auto" data-animate>
-      <!-- Disqus Script -->
-      <div id="disqus_thread" class="text-gray-900 dark:text-white"></div>
-      <script is:inline>
-        var disqus_config = function () {
-          this.page.url = window.location.href;  
-          this.page.identifier = 'community-board'; 
-        };
-        (function() { // DON'T EDIT BELOW THIS LINE
-          var d = document, s = d.createElement('script');
-          s.src = 'https://smsaad-online.disqus.com/embed.js';
-          s.setAttribute('data-timestamp', +new Date());
-          (d.head || d.body).appendChild(s);
-        })();
-      </script>
-      <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">community board powered by Disqus.</a></noscript>
+        <!-- Online Users -->
+        <div class="bg-white dark:bg-surface-800 rounded-2xl p-5 shadow-sm border border-gray-100 dark:border-gray-800/60 flex-grow">
+          <div class="flex items-center justify-between mb-3 px-2">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">Online (28)</h3>
+            <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+          </div>
+          <ul class="space-y-2">
+            {['John', 'Emma', 'Sarah', 'David', 'Michael', 'Chloe'].map((user) => (
+              <li>
+                <a href="#" class="flex items-center gap-3 px-2 py-1.5 rounded-lg hover:bg-gray-50 dark:hover:bg-surface-700 transition-colors group">
+                  <div class="relative">
+                    <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-brand-500 to-brand-300 flex items-center justify-center text-white text-xs font-bold">
+                      {user.charAt(0)}
+                    </div>
+                    <div class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 border-2 border-white dark:border-surface-800 rounded-full"></div>
+                  </div>
+                  <span class="text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors">{user}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </aside>
+
+      <!-- Main Feed -->
+      <main class="flex-grow flex flex-col bg-white dark:bg-surface-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800/60 overflow-hidden min-h-[600px]">
+        
+        <!-- Header -->
+        <div class="px-6 py-4 border-b border-gray-100 dark:border-gray-700/50 flex items-center justify-between bg-white/50 dark:bg-surface-800/50 backdrop-blur-sm sticky top-0 z-10">
+          <h2 class="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2">
+            ✨ Welcome to the Community
+          </h2>
+          <div class="flex items-center gap-3">
+            <button class="p-2 text-gray-500 hover:text-brand-600 dark:hover:text-brand-400 transition-colors" aria-label="Search">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            </button>
+            <button class="p-2 text-gray-500 hover:text-brand-600 dark:hover:text-brand-400 transition-colors" aria-label="Profile">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Messages Area -->
+        <div class="flex-grow p-6 overflow-y-auto space-y-8 bg-gray-50/50 dark:bg-[#111118]/50">
+          
+          <!-- Post 1 -->
+          <div class="group flex gap-4">
+            <div class="flex-shrink-0">
+              <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-brand-600 to-purple-600 p-0.5">
+                <img src="https://ui-avatars.com/api/?name=SM+Saad&background=random&color=fff" alt="SM Saad" class="w-full h-full rounded-full border-2 border-white dark:border-surface-800" />
+              </div>
+            </div>
+            <div class="flex-grow">
+              <div class="flex items-baseline gap-2 mb-1">
+                <span class="font-bold text-gray-900 dark:text-white">SM Saad</span>
+                <span class="text-xs text-brand-600 dark:text-brand-400 font-medium bg-brand-50 dark:bg-brand-900/30 px-2 py-0.5 rounded">Admin</span>
+                <span class="text-xs text-gray-500 dark:text-gray-400 ml-2">2 min ago</span>
+              </div>
+              <div class="text-gray-800 dark:text-gray-200 mb-3">
+                <h4 class="font-bold text-lg mb-1">Best AI Video Editing Workflow for 2026</h4>
+                <p class="text-gray-600 dark:text-gray-400 leading-relaxed text-sm">
+                  Hey everyone! I've been experimenting with the latest tools and wanted to share my new workflow. Using a combination of Claude for scripting and Premiere's new AI tools for auto-cutting, I've managed to cut production time by 40%. 
+                  <br><br>
+                  What's everyone else using right now? Let's discuss below 👇
+                </p>
+              </div>
+              
+              <!-- Interaction Bar -->
+              <div class="flex items-center gap-4 text-sm font-medium">
+                <button class="flex items-center gap-1.5 text-rose-500 bg-rose-50 dark:bg-rose-500/10 px-3 py-1.5 rounded-full hover:bg-rose-100 dark:hover:bg-rose-500/20 transition-colors">
+                  ❤️ <span class="text-rose-600 dark:text-rose-400">42</span>
+                </button>
+                <button class="flex items-center gap-1.5 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-surface-700 px-3 py-1.5 rounded-full transition-colors">
+                  💬 18
+                </button>
+                <button class="flex items-center gap-1.5 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-surface-700 px-3 py-1.5 rounded-full transition-colors">
+                  🔖 Save
+                </button>
+                <button class="flex items-center gap-1.5 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-surface-700 px-3 py-1.5 rounded-full transition-colors">
+                  ↗ Share
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Divider -->
+          <div class="h-px w-full bg-gray-200 dark:bg-gray-800/60"></div>
+
+          <!-- Post 2 -->
+          <div class="group flex gap-4">
+            <div class="flex-shrink-0">
+              <div class="w-10 h-10 rounded-full bg-gray-200 dark:bg-surface-700">
+                <img src="https://ui-avatars.com/api/?name=Alex&background=random" alt="Alex" class="w-full h-full rounded-full" />
+              </div>
+            </div>
+            <div class="flex-grow">
+              <div class="flex items-baseline gap-2 mb-1">
+                <span class="font-bold text-gray-900 dark:text-white">Alex</span>
+                <span class="text-xs text-gray-500 dark:text-gray-400 ml-2">45 min ago</span>
+              </div>
+              <div class="text-gray-800 dark:text-gray-200 mb-3">
+                <h4 class="font-bold text-lg mb-1">How do you edit YouTube Shorts faster?</h4>
+                <p class="text-gray-600 dark:text-gray-400 leading-relaxed text-sm">
+                  I'm spending way too much time doing dynamic captions and zooms for my Shorts. Does anyone have a good preset pack or AI tool they recommend for this?
+                </p>
+              </div>
+              
+              <!-- Interaction Bar -->
+              <div class="flex items-center gap-4 text-sm font-medium">
+                <button class="flex items-center gap-1.5 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-surface-700 px-3 py-1.5 rounded-full transition-colors">
+                  👍 67
+                </button>
+                <button class="flex items-center gap-1.5 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-surface-700 px-3 py-1.5 rounded-full transition-colors">
+                  💬 25
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Input Area -->
+        <div class="p-4 border-t border-gray-100 dark:border-gray-700/50 bg-white dark:bg-surface-800">
+          <div class="relative flex items-end gap-2 bg-gray-50 dark:bg-surface-900 border border-gray-200 dark:border-gray-700 rounded-xl p-2 focus-within:ring-2 focus-within:ring-brand-500/50 focus-within:border-brand-500 transition-all">
+            <button class="p-2 text-gray-400 hover:text-brand-500 transition-colors" aria-label="Add attachment">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path></svg>
+            </button>
+            <textarea 
+              rows="1" 
+              class="w-full max-h-32 bg-transparent text-gray-900 dark:text-white placeholder-gray-500 border-0 focus:ring-0 resize-none py-2 px-1 text-sm outline-none" 
+              placeholder="Type your message..."
+              oninput="this.style.height = ''; this.style.height = Math.min(this.scrollHeight, 128) + 'px'"
+            ></textarea>
+            <button class="p-2 bg-brand-600 hover:bg-brand-500 text-white rounded-lg transition-colors flex items-center justify-center gap-2 px-4 font-medium text-sm ml-auto">
+              Send <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+            </button>
+          </div>
+        </div>
+
+      </main>
     </div>
-  </section>
+  </div>
 </BaseLayout>
+
+<script>
+  // Simple script to auto-resize the textarea
+  const textareas = document.querySelectorAll('textarea');
+  textareas.forEach(textarea => {
+    textarea.addEventListener('input', function() {
+      this.style.height = 'auto';
+      this.style.height = (this.scrollHeight) + 'px';
+    });
+  });
+</script>
