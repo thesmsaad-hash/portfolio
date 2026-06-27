@@ -19,7 +19,6 @@
     "@astrojs/rss": "latest",
     "@astrojs/sitemap": "latest",
     "@astrojs/tailwind": "latest",
-    "@aws-sdk/client-s3": "^3.1075.0",
     "@fontsource/inter": "latest",
     "@fontsource/outfit": "latest",
     "@supabase/supabase-js": "^2.108.2",

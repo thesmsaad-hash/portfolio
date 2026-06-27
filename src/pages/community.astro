@@ -131,33 +131,37 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     document.getElementById('btn-italic').addEventListener('click', () => editor.chain().focus().toggleItalic().run());
   }
 
-  // Handle Image Upload to Cloudflare R2 / Backblaze B2
+  // Handle Image Upload directly to Supabase Storage
   document.getElementById('image-upload').addEventListener('change', async (e) => {
     const file = e.target.files[0];
-    if (!file) return;
+    if (!file || !currentUser) return;
 
     const statusEl = document.getElementById('upload-status');
     statusEl.classList.remove('hidden');
-
-    const formData = new FormData();
-    formData.append('file', file);
+    statusEl.textContent = 'Uploading...';
 
     try {
-      const res = await fetch('/api/upload', {
-        method: 'POST',
-        body: formData,
-      });
-      const data = await res.json();
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`;
+      const filePath = `${currentUser.id}/${fileName}`;
+
+      const { error } = await supabase.storage.from('community-images').upload(filePath, file);
+      if (error) throw error;
+
+      const { data: { publicUrl } } = supabase.storage.from('community-images').getPublicUrl(filePath);
       
-      if (data.url) {
-        editor.chain().focus().setImage({ src: data.url }).run();
+      if (publicUrl) {
+        editor.chain().focus().setImage({ src: publicUrl }).run();
       }
     } catch (err) {
       console.error('Upload failed', err);
-    } finally {
-      statusEl.classList.add('hidden');
-      e.target.value = ''; // reset
-    }
+      statusEl.textContent = 'Failed';
+      setTimeout(() => statusEl.classList.add('hidden'), 3000);
+      return;
+    } 
+    
+    statusEl.classList.add('hidden');
+    e.target.value = ''; // reset
   });
 
   // Supabase Auth logic
