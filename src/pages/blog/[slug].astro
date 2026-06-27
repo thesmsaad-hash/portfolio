@@ -228,7 +228,7 @@ const schema = generateArticleSchema({
 
           <!-- Share -->
           <div class="mt-8 flex flex-wrap items-center gap-3">
-            <span class="text-sm font-semibold text-gray-700 dark:text-gray-300">Share:</span>
+            <span class="text-sm font-semibold text-gray-700 dark:text-gray-300">Share & Follow:</span>
             <a
               href={`https://twitter.com/intent/tweet?url=${SITE_URL}/blog/${post.id}&text=${encodeURIComponent(post.data.title)}`}
               target="_blank"
@@ -253,32 +253,36 @@ const schema = generateArticleSchema({
             >
               Facebook
             </a>
-          </div>
-
-          <div class="mt-4 flex flex-wrap items-center gap-3">
-            <span class="text-sm font-semibold text-gray-700 dark:text-gray-300">Follow:</span>
-            <a href="https://youtube.com/@smsaad" target="_blank" rel="noopener noreferrer" class="btn-ghost text-sm px-4 py-2 border border-gray-200 dark:border-gray-700 hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600">YouTube</a>
-            <a href="https://instagram.com/smsaad" target="_blank" rel="noopener noreferrer" class="btn-ghost text-sm px-4 py-2 border border-gray-200 dark:border-gray-700 hover:bg-pink-50 dark:hover:bg-pink-900/20 hover:text-pink-600">Instagram</a>
-            <a href="https://facebook.com/smsaad" target="_blank" rel="noopener noreferrer" class="btn-ghost text-sm px-4 py-2 border border-gray-200 dark:border-gray-700 hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:text-blue-600">Facebook</a>
+            <a href="https://youtube.com/@smsaad" target="_blank" rel="noopener noreferrer" class="btn-ghost text-sm px-4 py-2 border border-gray-200 dark:border-gray-700 hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600">
+              YouTube
+            </a>
+            <a href="https://instagram.com/smsaad" target="_blank" rel="noopener noreferrer" class="btn-ghost text-sm px-4 py-2 border border-gray-200 dark:border-gray-700 hover:bg-pink-50 dark:hover:bg-pink-900/20 hover:text-pink-600">
+              Instagram
+            </a>
           </div>
 
           <!-- Subscribe Form -->
           <SubscribeForm />
 
-          <!-- Comments & Likes (Giscus) -->
+          <!-- Comments & Likes (Remark42) -->
           <div class="mt-16 border-t border-gray-100 dark:border-gray-800 pt-12">
             <h2 class="font-display font-bold text-2xl text-gray-900 dark:text-white mb-8">
               Comments & Discussion
             </h2>
-            <script src="https://utteranc.es/client.js"
-                    repo="thesmsaad-hash/portfolio"
-                    issue-term="pathname"
-                    theme="preferred-color-scheme"
-                    crossorigin="anonymous"
-                    async>
+            <div id="remark42"></div>
+            <script>
+              var remark_config = {
+                host: "https://remark42.yourdomain.com", // TODO: Replace with your actual Remark42 backend URL
+                site_id: "portfolio",
+                components: ["embed"],
+                theme: "dark", 
+                locale: "en"
+              };
             </script>
+            <script>!function(e,n){for(var o=0;o<e.length;o++){var r=n.createElement("script"),c=".js",d=n.head||n.body;"noModule"in r?(r.type="module",c=".mjs"):r.async=!0,r.defer=!0,r.src=remark_config.host+"/web/"+e[o]+c,d.appendChild(r)}}(remark_config.components||["embed"],document);</script>
+            
             <p class="text-sm text-gray-400 mt-4 text-center">
-              Login with GitHub to like, react, and comment.
+              Make sure to configure your Remark42 host URL in the code!
             </p>
           </div>
         </div>
