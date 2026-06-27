@@ -10,6 +10,7 @@ export const mainNav: NavItem[] = [
   { label: 'Portfolio', href: '/portfolio', badge: '⭐' },
   { label: 'Blog', href: '/blog' },
   { label: 'Services', href: '/services' },
+  { label: 'Community', href: '/community', badge: 'New' },
   { label: 'Resume', href: '/resume' },
   { label: 'About', href: '/about' },
   { label: 'Contact', href: '/contact' },
@@ -28,6 +29,7 @@ export const footerNav = [
     title: 'Content',
     links: [
       { label: 'Blog', href: '/blog' },
+      { label: 'Community', href: '/community' },
       { label: 'RSS Feed', href: '/rss.xml' },
       { label: 'Search', href: '/search' },
     ],
