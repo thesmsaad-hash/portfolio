@@ -1,9 +1,9 @@
 ---
 title: "Midjourney v7: What Content Creators Need to Know"
 excerpt: "Learn all about midjourney v7: what content creators need to know in this comprehensive guide for modern creators."
-date: 2026-06-29
+date: 2026-06-29T14:30:00Z
 author: SM SAAD
-featuredImage: /images/blog/post-1.png
+featuredImage: https://images.unsplash.com/photo-1478720568477-152d9b164e26?auto=format&fit=crop&w=1200&q=80
 categories: [AI Content]
 tags: [midjourney, ai-art, thumbnails]
 draft: false

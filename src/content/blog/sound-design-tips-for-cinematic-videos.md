@@ -1,9 +1,9 @@
 ---
 title: "Sound Design Tips for Cinematic Videos"
 excerpt: "Learn all about sound design tips for cinematic videos in this comprehensive guide for modern creators."
-date: 2026-06-30
+date: 2026-06-30T13:15:00Z
 author: SM SAAD
-featuredImage: /images/blog/post-1.png
+featuredImage: https://images.unsplash.com/photo-1574717024453-354056afd6ab?auto=format&fit=crop&w=1200&q=80
 categories: [Video Editing]
 tags: [sound-design, audio, cinematic]
 draft: false

@@ -1,9 +1,9 @@
 ---
 title: "Creating Seamless Transitions in DaVinci Resolve"
 excerpt: "Learn all about creating seamless transitions in davinci resolve in this comprehensive guide for modern creators."
-date: 2026-06-30
+date: 2026-06-30T09:00:00Z
 author: SM SAAD
-featuredImage: /images/blog/post-1.png
+featuredImage: https://images.unsplash.com/photo-1542204165-65bf26472b9b?auto=format&fit=crop&w=1200&q=80
 categories: [Video Editing]
 tags: [davinci, transitions, editing]
 draft: false

@@ -1,9 +1,9 @@
 ---
 title: "Top 5 AI Voice Generators for Faceless Channels"
 excerpt: "Learn all about top 5 ai voice generators for faceless channels in this comprehensive guide for modern creators."
-date: 2026-06-28
+date: 2026-06-29T21:45:00Z
 author: SM SAAD
-featuredImage: /images/blog/post-1.png
+featuredImage: https://images.unsplash.com/photo-1625316708582-7c38734be31d?auto=format&fit=crop&w=1200&q=80
 categories: [AI Content]
 tags: [ai-voice, faceless, elevenlabs]
 draft: false

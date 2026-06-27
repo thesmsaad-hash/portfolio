@@ -1,9 +1,9 @@
 ---
 title: "Color Grading Secrets in Premiere Pro"
 excerpt: "Learn all about color grading secrets in premiere pro in this comprehensive guide for modern creators."
-date: 2026-06-28
+date: 2026-06-28T18:45:00Z
 author: SM SAAD
-featuredImage: /images/blog/post-1.png
+featuredImage: https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=1200&q=80
 categories: [Video Editing]
 tags: [premiere, color-grading, lumetri]
 draft: false

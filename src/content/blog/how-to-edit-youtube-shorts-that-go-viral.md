@@ -1,9 +1,9 @@
 ---
 title: "How to Edit YouTube Shorts That Go Viral"
 excerpt: "Learn all about how to edit youtube shorts that go viral in this comprehensive guide for modern creators."
-date: 2026-06-28
+date: 2026-06-28T22:00:00Z
 author: SM SAAD
-featuredImage: /images/blog/post-1.png
+featuredImage: https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80
 categories: [YouTube]
 tags: [shorts, editing, viral]
 draft: false

@@ -1,9 +1,9 @@
 ---
 title: "Automating Your Editing Workflow with Scripts"
 excerpt: "Learn all about automating your editing workflow with scripts in this comprehensive guide for modern creators."
-date: 2026-06-29
+date: 2026-06-28T11:30:00Z
 author: SM SAAD
-featuredImage: /images/blog/post-1.png
+featuredImage: https://images.unsplash.com/photo-1536240478700-b869070f9279?auto=format&fit=crop&w=1200&q=80
 categories: [Video Editing]
 tags: [automation, scripting, premiere]
 draft: false

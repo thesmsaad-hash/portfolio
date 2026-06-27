@@ -1,9 +1,9 @@
 ---
 title: "Using AI to Generate B-Roll Instantly"
 excerpt: "Learn all about using ai to generate b-roll instantly in this comprehensive guide for modern creators."
-date: 2026-06-30
+date: 2026-06-30T17:30:00Z
 author: SM SAAD
-featuredImage: /images/blog/post-1.png
+featuredImage: https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80
 categories: [AI Content]
 tags: [ai-video, broll, sora]
 draft: false

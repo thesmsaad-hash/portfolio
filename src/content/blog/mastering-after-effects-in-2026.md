@@ -1,9 +1,9 @@
 ---
 title: "Mastering After Effects in 2026"
 excerpt: "Learn all about mastering after effects in 2026 in this comprehensive guide for modern creators."
-date: 2026-06-28
+date: 2026-06-29T10:15:00Z
 author: SM SAAD
-featuredImage: /images/blog/post-1.png
+featuredImage: https://images.unsplash.com/photo-1522881451255-f59a836f1b12?auto=format&fit=crop&w=1200&q=80
 categories: [Motion Graphics]
 tags: [after-effects, motion-design]
 draft: false

@@ -1,9 +1,9 @@
 ---
 title: "The Psychology of a Perfect YouTube Hook"
 excerpt: "Learn all about the psychology of a perfect youtube hook in this comprehensive guide for modern creators."
-date: 2026-06-29
+date: 2026-06-29T19:00:00Z
 author: SM SAAD
-featuredImage: /images/blog/post-1.png
+featuredImage: https://images.unsplash.com/photo-1516259762381-22954d7d3ad2?auto=format&fit=crop&w=1200&q=80
 categories: [YouTube]
 tags: [retention, hook, psychology]
 draft: false

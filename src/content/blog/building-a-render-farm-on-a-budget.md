@@ -1,9 +1,9 @@
 ---
 title: "Building a Render Farm on a Budget"
 excerpt: "Learn all about building a render farm on a budget in this comprehensive guide for modern creators."
-date: 2026-06-29
+date: 2026-06-28T15:00:00Z
 author: SM SAAD
-featuredImage: /images/blog/post-1.png
+featuredImage: https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?auto=format&fit=crop&w=1200&q=80
 categories: [Motion Graphics]
 tags: [rendering, hardware, 3d]
 draft: false
