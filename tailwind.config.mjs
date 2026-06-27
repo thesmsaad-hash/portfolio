@@ -163,7 +163,11 @@ export default {
             'h1, h2, h3, h4': {
               fontFamily: theme('fontFamily.display').join(', '),
               fontWeight: '700',
+              color: theme('colors.gray.900'),
             },
+            strong: { color: theme('colors.gray.900') },
+            'ul > li::marker': { color: theme('colors.gray.400') },
+            'ol > li::marker': { color: theme('colors.gray.500') },
             code: {
               color: theme('colors.brand.600'),
               backgroundColor: theme('colors.brand.50'),
@@ -183,6 +187,9 @@ export default {
               '&:hover': { color: theme('colors.brand.300') },
             },
             'h1, h2, h3, h4': { color: theme('colors.white') },
+            strong: { color: theme('colors.white') },
+            'ul > li::marker': { color: theme('colors.gray.500') },
+            'ol > li::marker': { color: theme('colors.gray.400') },
             code: {
               color: theme('colors.brand.400'),
               backgroundColor: theme('colors.brand.950'),
