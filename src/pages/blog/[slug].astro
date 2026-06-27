@@ -264,26 +264,25 @@ const schema = generateArticleSchema({
           <!-- Subscribe Form -->
           <SubscribeForm />
 
-          <!-- Comments & Likes (Remark42) -->
+          <!-- Comments & Likes (Disqus) -->
           <div class="mt-16 border-t border-gray-100 dark:border-gray-800 pt-12">
             <h2 class="font-display font-bold text-2xl text-gray-900 dark:text-white mb-8">
               Comments & Discussion
             </h2>
-            <div id="remark42"></div>
-            <script>
-              var remark_config = {
-                host: "https://remark42.yourdomain.com", // TODO: Replace with your actual Remark42 backend URL
-                site_id: "portfolio",
-                components: ["embed"],
-                theme: "dark", 
-                locale: "en"
+            <div id="disqus_thread"></div>
+            <script is:inline>
+              var disqus_config = function () {
+                this.page.url = window.location.href;  
+                this.page.identifier = window.location.pathname; 
               };
+              (function() { // DON'T EDIT BELOW THIS LINE
+                var d = document, s = d.createElement('script');
+                s.src = 'https://smsaad-online.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+              })();
             </script>
-            <script>!function(e,n){for(var o=0;o<e.length;o++){var r=n.createElement("script"),c=".js",d=n.head||n.body;"noModule"in r?(r.type="module",c=".mjs"):r.async=!0,r.defer=!0,r.src=remark_config.host+"/web/"+e[o]+c,d.appendChild(r)}}(remark_config.components||["embed"],document);</script>
-            
-            <p class="text-sm text-gray-400 mt-4 text-center">
-              Make sure to configure your Remark42 host URL in the code!
-            </p>
+            <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
           </div>
         </div>
       </div>
