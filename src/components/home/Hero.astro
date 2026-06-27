@@ -1,0 +1,163 @@
+---
+// Hero Section — Full screen cinematic intro
+---
+
+<section
+  id="hero"
+  class="relative min-h-screen flex items-center justify-center overflow-hidden bg-gray-950"
+>
+  <!-- Background image -->
+  <div class="absolute inset-0">
+
+    <div class="absolute inset-0 bg-gradient-to-b from-gray-950/60 via-gray-950/40 to-gray-950"></div>
+  </div>
+
+  <!-- Animated glow orbs -->
+  <div class="absolute inset-0 overflow-hidden pointer-events-none">
+    <div class="absolute top-1/4 left-1/4 w-72 h-72 rounded-full blur-3xl
+                bg-brand-600/20 animate-float"></div>
+    <div class="absolute top-1/3 right-1/4 w-96 h-96 rounded-full blur-3xl
+                bg-accent-500/15 animate-float animation-delay-300"></div>
+    <div class="absolute bottom-1/4 left-1/3 w-64 h-64 rounded-full blur-3xl
+                bg-brand-400/10 animate-float animation-delay-600"></div>
+  </div>
+
+  <!-- Grid overlay -->
+  <div
+    class="absolute inset-0 opacity-[0.03]"
+    style="background-image: linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px); background-size: 60px 60px;"
+  ></div>
+
+  <!-- Content -->
+  <div class="container-custom relative z-10 text-center text-white">
+    <!-- Badge -->
+    <div
+      class="inline-flex items-center gap-2 px-4 py-2 rounded-full
+             bg-white/10 border border-white/20 backdrop-blur-sm
+             text-sm font-medium text-gray-300 mb-8
+             animate-fade-down animation-fill-both"
+    >
+      <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
+      Available for new projects
+    </div>
+
+    <!-- Name -->
+    <h1
+      class="font-display font-black text-6xl sm:text-7xl md:text-8xl lg:text-9xl
+             leading-none tracking-tight mb-4
+             animate-fade-up animation-fill-both animation-delay-100"
+    >
+      <span class="gradient-text">SM</span>
+      <span class="text-white"> SAAD</span>
+    </h1>
+
+    <!-- Animated subtitle -->
+    <div
+      class="text-lg sm:text-xl md:text-2xl text-gray-300 font-light mb-3
+             animate-fade-up animation-fill-both animation-delay-200"
+    >
+      <span id="typewriter-text" class="font-medium text-white"></span>
+      <span class="inline-block w-0.5 h-6 bg-brand-400 ml-1 animate-blink align-middle"></span>
+    </div>
+
+    <p
+      class="text-gray-400 text-base md:text-lg max-w-xl mx-auto mb-10
+             animate-fade-up animation-fill-both animation-delay-300"
+    >
+      Turning Raw Footage Into Compelling Stories. I specialize in Podcast Video Editing and Short-Form Reels that captivate audiences and drive real growth.
+    </p>
+
+    <!-- CTA Buttons -->
+    <div
+      class="flex flex-wrap items-center justify-center gap-4
+             animate-fade-up animation-fill-both animation-delay-400"
+    >
+      <a href="/portfolio" id="cta-view-portfolio" class="btn-primary px-8 py-4 text-base">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M15 10l4.553-2.069A1 1 0 0121 8.82v6.36a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+        </svg>
+        View Portfolio
+      </a>
+      <a href="/blog" id="cta-read-blog" class="btn-secondary px-8 py-4 text-base">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+        </svg>
+        Read Blog
+      </a>
+      <a href="/contact" id="cta-contact" class="btn-accent px-8 py-4 text-base">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+        </svg>
+        Contact Me
+      </a>
+    </div>
+
+    <!-- Scroll indicator -->
+    <div class="mt-16 animate-float animation-delay-500 animation-fill-both">
+      <a
+        href="#featured-projects"
+        class="inline-flex flex-col items-center gap-2 text-gray-500 hover:text-gray-300 transition-colors"
+        aria-label="Scroll to projects"
+      >
+        <span class="text-xs uppercase tracking-widest">Scroll</span>
+        <svg class="w-5 h-5 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Typewriter effect
+  const phrases = [
+    'Podcast Video Editor',
+    'Reels Editor',
+    'Motion Graphics Editor',
+    'Visual Storyteller',
+    'Content Creator',
+  ];
+
+  const el = document.getElementById('typewriter-text');
+  let phraseIndex = 0;
+  let charIndex = 0;
+  let isDeleting = false;
+  let isPaused = false;
+
+  function type() {
+    if (!el) return;
+    const currentPhrase = phrases[phraseIndex];
+
+    if (isPaused) {
+      isPaused = false;
+      isDeleting = true;
+      setTimeout(type, 1200);
+      return;
+    }
+
+    if (isDeleting) {
+      el.textContent = currentPhrase.substring(0, charIndex - 1);
+      charIndex--;
+      if (charIndex === 0) {
+        isDeleting = false;
+        phraseIndex = (phraseIndex + 1) % phrases.length;
+      }
+      setTimeout(type, 60);
+    } else {
+      el.textContent = currentPhrase.substring(0, charIndex + 1);
+      charIndex++;
+      if (charIndex === currentPhrase.length) {
+        isPaused = true;
+        setTimeout(type, 2000);
+        return;
+      }
+      setTimeout(type, 100);
+    }
+  }
+
+  // Start after a short delay
+  setTimeout(type, 800);
+</script>

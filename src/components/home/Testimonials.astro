@@ -1,0 +1,133 @@
+---
+import { testimonials } from '../../data/testimonials';
+
+const stars = (rating: number) => '★'.repeat(rating) + '☆'.repeat(5 - rating);
+---
+
+<section class="section bg-white dark:bg-surface-dark overflow-hidden">
+  <div class="container-custom">
+    <div class="text-center mb-12" data-animate>
+      <p class="section-label">Testimonials</p>
+      <h2 class="section-title mb-4">What Clients Say</h2>
+      <p class="section-subtitle mx-auto">
+        Real feedback from creators and brands who've experienced the difference quality editing makes.
+      </p>
+    </div>
+
+    <!-- Carousel -->
+    <div class="relative" data-animate>
+      <div
+        id="testimonials-track"
+        class="flex gap-6 overflow-x-auto no-scrollbar snap-x snap-mandatory pb-4"
+        style="scroll-behavior: smooth"
+      >
+        {testimonials.map((t, i) => (
+          <article
+            class="testimonial-card min-w-[300px] sm:min-w-[360px] snap-start flex-shrink-0"
+            id={`testimonial-${i}`}
+          >
+            <!-- Stars -->
+            <div class="text-amber-400 text-xl mb-4" aria-label={`${t.rating} out of 5 stars`}>
+              {stars(t.rating)}
+            </div>
+
+            <!-- Quote -->
+            <blockquote class="text-gray-700 dark:text-gray-300 text-sm leading-relaxed mb-6 italic">
+              "{t.quote}"
+            </blockquote>
+
+            <!-- Author -->
+            <div class="flex items-center gap-3">
+              <div
+                class="w-10 h-10 rounded-full flex items-center justify-center
+                       bg-brand-gradient text-white font-bold text-sm shrink-0"
+              >
+                {t.name.charAt(0)}
+              </div>
+              <div>
+                <p class="font-semibold text-sm text-gray-900 dark:text-white">{t.name}</p>
+                <p class="text-xs text-gray-400">{t.role} · {t.company}</p>
+              </div>
+              {t.platform && (
+                <span class="ml-auto tag-accent text-xs">
+                  {t.platform}
+                </span>
+              )}
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <!-- Navigation dots -->
+      <div class="flex justify-center gap-2 mt-6">
+        {testimonials.map((_, i) => (
+          <button
+            class="w-2 h-2 rounded-full bg-gray-300 dark:bg-gray-700
+                   hover:bg-brand-500 dark:hover:bg-brand-400
+                   transition-all duration-200 testimonial-dot"
+            data-index={i}
+            aria-label={`Go to testimonial ${i + 1}`}
+          ></button>
+        ))}
+      </div>
+
+      <!-- Navigation arrows -->
+      <button
+        id="testimonials-prev"
+        class="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4
+               w-10 h-10 rounded-full bg-white dark:bg-gray-800 shadow-card
+               items-center justify-center
+               hover:bg-brand-50 dark:hover:bg-brand-950 transition-colors"
+        aria-label="Previous testimonial"
+      >
+        <svg class="w-4 h-4 text-gray-700 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+        </svg>
+      </button>
+      <button
+        id="testimonials-next"
+        class="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 translate-x-4
+               w-10 h-10 rounded-full bg-white dark:bg-gray-800 shadow-card
+               items-center justify-center
+               hover:bg-brand-50 dark:hover:bg-brand-950 transition-colors"
+        aria-label="Next testimonial"
+      >
+        <svg class="w-4 h-4 text-gray-700 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</section>
+
+<script>
+  const track = document.getElementById('testimonials-track');
+  const dots = document.querySelectorAll('.testimonial-dot');
+  const prevBtn = document.getElementById('testimonials-prev');
+  const nextBtn = document.getElementById('testimonials-next');
+
+  let currentIndex = 0;
+
+  const scrollTo = (index: number) => {
+    const items = track?.querySelectorAll('article');
+    if (!items || !track) return;
+    const item = items[index] as HTMLElement;
+    track.scrollTo({ left: item.offsetLeft - 16, behavior: 'smooth' });
+    dots.forEach((d, i) => {
+      d.classList.toggle('bg-brand-500', i === index);
+      d.classList.toggle('dark:bg-brand-400', i === index);
+      d.classList.toggle('w-6', i === index);
+    });
+    currentIndex = index;
+  };
+
+  dots.forEach((dot, i) => dot.addEventListener('click', () => scrollTo(i)));
+  nextBtn?.addEventListener('click', () => scrollTo((currentIndex + 1) % dots.length));
+  prevBtn?.addEventListener('click', () => scrollTo((currentIndex - 1 + dots.length) % dots.length));
+
+  // Auto-advance
+  setInterval(() => scrollTo((currentIndex + 1) % dots.length), 5000);
+
+  // Init first dot
+  scrollTo(0);
+</script>

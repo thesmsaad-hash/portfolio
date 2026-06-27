@@ -1,0 +1,85 @@
+---
+import { services } from '../../data/services';
+
+const featured = services.filter((s) => s.featured).slice(0, 3);
+---
+
+<section class="section bg-white dark:bg-surface-dark">
+  <div class="container-custom">
+    <div class="text-center mb-12" data-animate>
+      <p class="section-label">Services</p>
+      <h2 class="section-title mb-4">What I Offer</h2>
+      <p class="section-subtitle mx-auto">
+        Premium video production services tailored to grow your audience and elevate your brand.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+      {featured.map((service, i) => (
+        <article
+          class="group relative glass-card border border-gray-100 dark:border-white/5
+                 hover:border-brand-500/30 dark:hover:border-brand-400/20
+                 transition-all duration-400 overflow-hidden"
+          data-animate
+          style={`animation-delay: ${i * 100}ms`}
+        >
+          <!-- Gradient blob -->
+          <div class="absolute top-0 right-0 w-24 h-24 rounded-full blur-2xl
+                      bg-brand-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500
+                      pointer-events-none"></div>
+
+          <!-- Icon -->
+          <div class="text-4xl mb-4">{service.icon}</div>
+
+          <!-- Title -->
+          <h3 class="font-display font-bold text-xl text-gray-900 dark:text-white mb-2">
+            {service.title}
+          </h3>
+
+          <!-- Description -->
+          <p class="text-sm text-gray-500 dark:text-gray-400 leading-relaxed mb-4">
+            {service.description}
+          </p>
+
+          <!-- Price + turnaround -->
+          {service.startingPrice && (
+            <div class="flex items-center gap-3 mb-4 text-sm">
+              <span class="font-bold text-brand-600 dark:text-brand-400">
+                From {service.startingPrice}
+              </span>
+              {service.turnaround && (
+                <>
+                  <span class="text-gray-300 dark:text-gray-700">·</span>
+                  <span class="text-gray-400">{service.turnaround}</span>
+                </>
+              )}
+            </div>
+          )}
+
+          <!-- CTA -->
+          <a
+            href="/contact"
+            class="inline-flex items-center gap-2 text-sm font-semibold
+                   text-brand-600 dark:text-brand-400
+                   hover:text-brand-500 transition-colors group/link"
+          >
+            Get a Quote
+            <svg class="w-4 h-4 transition-transform group-hover/link:translate-x-1"
+                 fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
+          </a>
+        </article>
+      ))}
+    </div>
+
+    <div class="text-center" data-animate>
+      <a href="/services" class="btn-outline px-8 py-3">
+        All Services
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>

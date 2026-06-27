@@ -1,0 +1,209 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { formatDate, estimateReadingTime } from '../../utils/seo';
+
+const posts = await getCollection('blog', ({ data }) => !data.draft);
+const sorted = posts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+const featured = sorted.find((p) => p.data.featured);
+const rest = sorted.filter((p) => !p.data.featured);
+
+// All unique categories
+const categories = ['All', ...new Set(posts.flatMap((p) => p.data.categories))];
+---
+
+<BaseLayout
+  title="Blog"
+  description="Insights on video editing, motion graphics, AI content creation, and the creator economy. Written by SM SAAD."
+>
+  <!-- Page header -->
+  <div class="pt-32 pb-16 bg-gradient-to-b from-gray-950 to-white dark:to-surface-dark relative overflow-hidden">
+    <div class="absolute top-0 right-1/4 w-96 h-96 rounded-full blur-3xl bg-brand-600/10 pointer-events-none"></div>
+    <div class="container-custom text-center">
+      <p class="section-label mb-3">Writing</p>
+      <h1 class="font-display font-black text-5xl md:text-7xl text-white mb-4 leading-none">Blog</h1>
+      <p class="text-gray-400 text-lg max-w-xl mx-auto">
+        Insights, tutorials, and behind-the-scenes from a professional video editor.
+      </p>
+    </div>
+  </div>
+
+  <section class="section bg-white dark:bg-surface-dark">
+    <div class="container-custom">
+      <!-- Featured post -->
+      {featured && (
+        <article class="group grid grid-cols-1 md:grid-cols-2 gap-8 mb-16 card overflow-hidden" data-animate>
+          <div class="overflow-hidden aspect-video bg-gray-100 dark:bg-gray-800">
+            {featured.data.featuredImage && (
+              <img
+                src={featured.data.featuredImage}
+                alt={featured.data.title}
+                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                loading="eager"
+              />
+            )}
+          </div>
+          <div class="p-8 flex flex-col justify-center">
+            <div class="flex items-center gap-3 mb-4">
+              <span class="tag-accent text-xs">Featured</span>
+              {featured.data.categories.slice(0, 1).map((c) => (
+                <span class="tag text-xs">{c}</span>
+              ))}
+            </div>
+            <h2 class="font-display font-black text-3xl md:text-4xl text-gray-900 dark:text-white mb-3 leading-tight">
+              <a href={`/blog/${featured.slug}`} class="hover:text-brand-600 dark:hover:text-brand-400 transition-colors">
+                {featured.data.title}
+              </a>
+            </h2>
+            <p class="text-gray-500 dark:text-gray-400 leading-relaxed mb-6">
+              {featured.data.excerpt}
+            </p>
+            <div class="flex items-center gap-4 text-sm text-gray-400 mb-6">
+              <time datetime={featured.data.date.toISOString()}>{formatDate(featured.data.date)}</time>
+              <span>·</span>
+              <span>{featured.data.readingTime || estimateReadingTime(featured.body || '')} min read</span>
+            </div>
+            <a href={`/blog/${featured.slug}`} class="btn-primary self-start">
+              Read Article →
+            </a>
+          </div>
+        </article>
+      )}
+
+      <!-- Category filter -->
+      <div class="flex flex-wrap items-center gap-3 mb-10" data-animate>
+        {categories.map((cat) => (
+          <button
+            class:list={['filter-btn', cat === 'All' ? 'active' : '']}
+            data-cat-filter={cat}
+          >
+            {cat}
+          </button>
+        ))}
+
+        <!-- Search -->
+        <div class="ml-auto relative">
+          <input
+            id="blog-search"
+            type="search"
+            placeholder="Search articles…"
+            class="input pl-9 w-48 md:w-64 text-sm py-2"
+          />
+          <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none"
+               fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Posts grid -->
+      <div id="blog-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {rest.map((post, i) => (
+          <article
+            class="group card overflow-hidden blog-card"
+            data-categories={post.data.categories.join(',')}
+            data-title={post.data.title.toLowerCase()}
+            data-animate
+            style={`animation-delay: ${i * 80}ms`}
+          >
+            {post.data.featuredImage && (
+              <div class="overflow-hidden aspect-video bg-gray-100 dark:bg-gray-800">
+                <img
+                  src={post.data.featuredImage}
+                  alt={post.data.title}
+                  class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+            )}
+
+            <div class="p-6 flex flex-col flex-1">
+              <div class="flex flex-wrap gap-2 mb-3">
+                {post.data.categories.slice(0, 2).map((cat) => (
+                  <span class="tag text-xs">{cat}</span>
+                ))}
+              </div>
+
+              <h2 class="font-display font-bold text-lg text-gray-900 dark:text-white line-clamp-2 mb-2
+                         group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors">
+                <a href={`/blog/${post.id}`}>{post.data.title}</a>
+              </h2>
+
+              <p class="text-sm text-gray-500 dark:text-gray-400 line-clamp-2 mb-4 flex-1">
+                {post.data.excerpt}
+              </p>
+
+              <div class="flex items-center justify-between text-xs text-gray-400 pt-4 border-t border-gray-100 dark:border-gray-800">
+                <time datetime={post.data.date.toISOString()}>{formatDate(post.data.date)}</time>
+                <span class="flex items-center gap-1">
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                  </svg>
+                  {post.data.readingTime || estimateReadingTime(post.body || '')} min
+                </span>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <!-- No results -->
+      <div id="blog-no-results" class="hidden text-center py-16">
+        <div class="text-5xl mb-4">📝</div>
+        <h3 class="font-display font-bold text-xl mb-2">No articles found</h3>
+        <p class="text-gray-400">Try a different search term or category.</p>
+      </div>
+
+      <!-- RSS link -->
+      <div class="text-center mt-12 text-sm text-gray-400" data-animate>
+        <a href="/rss.xml" class="inline-flex items-center gap-2 hover:text-orange-400 transition-colors">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M6.18 15.64a2.18 2.18 0 012.18 2.18C8.36 19.01 7.38 20 6.18 20C4.98 20 4 19.01 4 17.82a2.18 2.18 0 012.18-2.18M4 4.44A15.56 15.56 0 0119.56 20h-2.83A12.73 12.73 0 004 7.27V4.44m0 5.66a9.9 9.9 0 019.9 9.9h-2.83A7.07 7.07 0 004 12.93V10.1z"/>
+          </svg>
+          Subscribe via RSS
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  const cards = document.querySelectorAll('.blog-card') as NodeListOf<HTMLElement>;
+  const catBtns = document.querySelectorAll('[data-cat-filter]') as NodeListOf<HTMLButtonElement>;
+  const searchInput = document.getElementById('blog-search') as HTMLInputElement;
+  const noResults = document.getElementById('blog-no-results');
+
+  let activeCategory = 'All';
+  let searchQuery = '';
+
+  function applyFilters() {
+    let visible = 0;
+    cards.forEach((card) => {
+      const cats = (card.dataset.categories || '').split(',');
+      const catMatch = activeCategory === 'All' || cats.includes(activeCategory);
+      const q = searchQuery.toLowerCase();
+      const searchMatch = !q || (card.dataset.title || '').includes(q);
+      const show = catMatch && searchMatch;
+      card.style.display = show ? '' : 'none';
+      if (show) visible++;
+    });
+    if (noResults) noResults.classList.toggle('hidden', visible > 0);
+  }
+
+  catBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      activeCategory = btn.dataset.catFilter || 'All';
+      catBtns.forEach((b) => b.classList.remove('active'));
+      btn.classList.add('active');
+      applyFilters();
+    });
+  });
+
+  searchInput?.addEventListener('input', (e) => {
+    searchQuery = (e.target as HTMLInputElement).value;
+    applyFilters();
+  });
+</script>

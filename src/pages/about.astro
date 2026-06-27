@@ -1,0 +1,188 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { timeline } from '../data/timeline';
+import { skills, software } from '../data/skills';
+import { generatePersonSchema } from '../utils/seo';
+---
+
+<BaseLayout
+  title="About"
+  description="Learn about SM SAAD — professional video editor, motion graphics artist and AI content creator with 6+ years of experience."
+  schema={generatePersonSchema()}
+>
+  <!-- Header -->
+  <div class="pt-32 pb-0 bg-gradient-to-b from-gray-950 to-white dark:to-surface-dark relative overflow-hidden">
+    <div class="container-custom">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center pb-16">
+        <!-- Text -->
+        <div data-animate>
+          <p class="section-label mb-3">About Me</p>
+          <h1 class="font-display font-black text-5xl md:text-6xl text-white mb-6 leading-tight">
+            Hi, I'm <span class="gradient-text">SM SAAD</span>
+          </h1>
+          <p class="text-gray-300 text-lg leading-relaxed mb-6">
+            I'm a professional Video Editor specializing in Podcast Video Editing and Short-Form Reels with over 1 year of experience transforming raw footage into compelling stories.
+          </p>
+          <p class="text-gray-400 leading-relaxed mb-8">
+            My mission is simple: create videos that don't just look beautiful — they connect, they inspire, and they grow. I help Indian creators, coaches, and brands build a powerful online presence through professional video content. From long-form podcast episodes to viral Instagram reels — I craft every frame with purpose, precision, and storytelling instinct.
+          </p>
+          <div class="flex flex-wrap gap-4">
+            <a href="/contact" class="btn-primary px-8 py-3">Work With Me</a>
+            <a href="/resume" class="btn-secondary px-8 py-3">View Resume</a>
+          </div>
+        </div>
+
+        <!-- Profile photo -->
+        <div class="flex justify-center" data-animate="scale">
+          <div class="relative">
+            <div class="w-72 h-72 md:w-96 md:h-96 rounded-3xl overflow-hidden shadow-2xl">
+              <img
+                src="/images/profile.png"
+                alt="SM SAAD — Video Editor"
+                class="w-full h-full object-cover"
+                loading="eager"
+              />
+            </div>
+            <!-- Floating badges -->
+            <div class="absolute -bottom-4 -left-4 glass-card px-4 py-3 shadow-lg">
+              <div class="text-2xl font-display font-black text-brand-600 dark:text-brand-400">1+</div>
+              <div class="text-xs text-gray-500 dark:text-gray-400">Years Experience</div>
+            </div>
+            <div class="absolute -top-4 -right-4 glass-card px-4 py-3 shadow-lg">
+              <div class="text-2xl font-display font-black text-accent-600 dark:text-accent-400">30+</div>
+              <div class="text-xs text-gray-500 dark:text-gray-400">Videos Edited</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mission -->
+  <section class="section bg-white dark:bg-surface-dark">
+    <div class="container-custom max-w-4xl text-center">
+      <div data-animate>
+        <p class="section-label">Mission</p>
+        <h2 class="section-title mb-6">Why I Do What I Do</h2>
+        <p class="text-xl text-gray-500 dark:text-gray-400 leading-relaxed">
+          "I believe every creator deserves content that stands out. In a world saturated with noise, my job is to make your vision the signal — the story that people stop scrolling for, watch til the end, and share with their friends."
+        </p>
+        <div class="mt-6 font-display font-bold text-lg gradient-text">— SM SAAD</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Timeline -->
+  <section class="section bg-gray-50 dark:bg-surface-dark-secondary">
+    <div class="container-custom max-w-3xl">
+      <div class="text-center mb-12" data-animate>
+        <p class="section-label">Journey</p>
+        <h2 class="section-title">My Story</h2>
+      </div>
+
+      <div class="relative">
+        <!-- Vertical line -->
+        <div class="absolute left-6 top-0 bottom-0 w-0.5 bg-gray-200 dark:bg-gray-800 ml-px"></div>
+
+        <div class="space-y-8">
+          {timeline.map((item, i) => (
+            <div class="relative flex gap-8" data-animate style={`animation-delay: ${i * 100}ms`}>
+              <!-- Dot -->
+              <div class="relative z-10 shrink-0">
+                <div
+                  class:list={[
+                    'w-12 h-12 rounded-xl flex items-center justify-center text-white font-bold text-xs shadow-lg',
+                    item.type === 'work' ? 'bg-brand-gradient' : '',
+                    item.type === 'education' ? 'bg-gradient-to-br from-green-500 to-emerald-600' : '',
+                    item.type === 'achievement' ? 'bg-gradient-to-br from-amber-400 to-orange-500' : '',
+                  ]}
+                >
+                  {item.type === 'work' && '💼'}
+                  {item.type === 'education' && '🎓'}
+                  {item.type === 'achievement' && '🏆'}
+                </div>
+              </div>
+
+              <!-- Content -->
+              <div class="glass-card flex-1 -mt-2">
+                <p class="text-xs font-bold text-brand-500 dark:text-brand-400 uppercase tracking-wider mb-1">
+                  {item.year}
+                </p>
+                <h3 class="font-display font-bold text-lg text-gray-900 dark:text-white mb-1">
+                  {item.title}
+                </h3>
+                <p class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">{item.org}</p>
+                <p class="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">{item.description}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills + Software -->
+  <section class="section bg-white dark:bg-surface-dark">
+    <div class="container-custom">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+        <!-- Skills -->
+        <div>
+          <div class="mb-8" data-animate>
+            <p class="section-label">Skills</p>
+            <h2 class="section-title text-3xl">Proficiency</h2>
+          </div>
+          <div class="space-y-4">
+            {skills.map((skill, i) => (
+              <div data-animate style={`animation-delay: ${i * 60}ms`}>
+                <div class="flex justify-between mb-1.5">
+                  <span class="text-sm font-semibold text-gray-700 dark:text-gray-200">{skill.name}</span>
+                  <span class="text-xs font-bold text-brand-600 dark:text-brand-400">{skill.level}%</span>
+                </div>
+                <div class="progress-bar">
+                  <div class="h-full rounded-full bg-brand-gradient" style="width: 0%" data-progress={skill.level}></div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <!-- Software -->
+        <div>
+          <div class="mb-8" data-animate>
+            <p class="section-label">Tools</p>
+            <h2 class="section-title text-3xl">Software I Use</h2>
+          </div>
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+            {software.map((sw, i) => (
+              <div
+                class="glass-card text-center hover:scale-105 cursor-default transition-transform"
+                data-animate
+                style={`animation-delay: ${i * 40}ms`}
+              >
+                <div class="text-3xl mb-2">{sw.icon}</div>
+                <p class="text-xs font-semibold text-gray-700 dark:text-gray-300 truncate">{sw.name}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  const progressObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.querySelectorAll('[data-progress]').forEach((bar) => {
+          const level = (bar as HTMLElement).dataset.progress || '0';
+          setTimeout(() => { (bar as HTMLElement).style.width = `${level}%`; }, 200);
+        });
+        progressObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.2 });
+
+  const section = document.querySelector('[data-progress]')?.closest('section');
+  if (section) progressObserver.observe(section);
+</script>

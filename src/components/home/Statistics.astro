@@ -1,0 +1,59 @@
+---
+import { stats } from '../../data/timeline';
+
+const { class: className = '' } = Astro.props;
+---
+
+<!-- Statistics Strip -->
+<section class={`py-12 bg-gray-950 border-y border-white/5 ${className}`}>
+  <div class="container-custom">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+      {stats.map((stat, i) => (
+        <div
+          class="text-center"
+          data-animate
+          style={`animation-delay: ${i * 100}ms`}
+        >
+          <div class="text-3xl mb-1">{stat.icon}</div>
+          <div class="font-display font-black text-4xl md:text-5xl gradient-text"
+               data-counter={stat.value}
+               data-suffix={stat.suffix}>
+            0{stat.suffix}
+          </div>
+          <div class="text-gray-400 text-sm mt-1">{stat.label}</div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  // Animated counter
+  function animateCounter(el: HTMLElement) {
+    const target = parseInt(el.dataset.counter || '0', 10);
+    const suffix = el.dataset.suffix || '';
+    const duration = 2000;
+    const step = target / (duration / 16);
+    let current = 0;
+
+    const update = () => {
+      current = Math.min(current + step, target);
+      el.textContent = Math.round(current) + suffix;
+      if (current < target) requestAnimationFrame(update);
+    };
+    requestAnimationFrame(update);
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        const counters = entry.target.querySelectorAll('[data-counter]');
+        counters.forEach((c) => animateCounter(c as HTMLElement));
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.3 });
+
+  const section = document.querySelector('[data-counter]')?.closest('section');
+  if (section) observer.observe(section);
+</script>

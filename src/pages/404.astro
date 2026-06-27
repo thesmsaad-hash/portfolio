@@ -1,0 +1,44 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="404 — Page Not Found"
+  description="The page you're looking for doesn't exist."
+  noIndex={true}
+>
+  <div class="min-h-screen flex items-center justify-center bg-gradient-to-b from-gray-950 to-surface-dark relative overflow-hidden">
+    <!-- Glow orbs -->
+    <div class="absolute top-1/4 left-1/4 w-96 h-96 rounded-full blur-3xl bg-brand-600/10 pointer-events-none animate-float"></div>
+    <div class="absolute bottom-1/4 right-1/4 w-64 h-64 rounded-full blur-3xl bg-accent-500/10 pointer-events-none animate-float animation-delay-300"></div>
+
+    <div class="container-custom text-center relative z-10 py-24">
+      <!-- 404 -->
+      <div class="font-display font-black text-[10rem] md:text-[16rem] leading-none
+                  gradient-text opacity-20 select-none pointer-events-none">
+        404
+      </div>
+
+      <div class="-mt-16 relative z-10">
+        <div class="text-6xl mb-6 animate-float">🎬</div>
+        <h1 class="font-display font-black text-4xl md:text-5xl text-white mb-4">
+          Scene Not Found
+        </h1>
+        <p class="text-gray-400 text-lg max-w-md mx-auto mb-8">
+          Looks like this page got cut from the final edit. Let's get you back to the main timeline.
+        </p>
+
+        <div class="flex flex-wrap items-center justify-center gap-4">
+          <a href="/" class="btn-primary px-8 py-4">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+            </svg>
+            Go Home
+          </a>
+          <a href="/portfolio" class="btn-secondary px-8 py-4">View Portfolio</a>
+          <a href="/contact" class="btn-secondary px-8 py-4">Contact Me</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

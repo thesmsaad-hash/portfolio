@@ -1,0 +1,191 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { services } from '../data/services';
+
+const blogPosts = await getCollection('blog', ({ data }) => !data.draft);
+const portfolioItems = await getCollection('portfolio');
+
+// Build search index
+interface SearchItem {
+  type: string;
+  title: string;
+  excerpt: string;
+  url: string;
+  category?: string;
+  tags?: string[];
+  image?: string;
+}
+
+const searchIndex: SearchItem[] = [
+  ...blogPosts.map(p => ({
+    type: 'blog',
+    title: p.data.title,
+    excerpt: p.data.excerpt,
+    url: `/blog/${p.id}`,
+    category: p.data.categories[0],
+    tags: p.data.tags,
+    image: p.data.featuredImage,
+  })),
+  ...portfolioItems.map(p => ({
+    type: 'portfolio',
+    title: p.data.title,
+    excerpt: p.data.shortDescription,
+    url: `/portfolio/${p.id}`,
+    category: p.data.category,
+    tags: p.data.tools,
+    image: p.data.thumbnail,
+  })),
+  ...services.map(s => ({
+    type: 'service',
+    title: s.title,
+    excerpt: s.description,
+    url: `/services#${s.id}`,
+    tags: s.features,
+  })),
+];
+---
+
+<BaseLayout
+  title="Search"
+  description="Search across the SM SAAD portfolio, blog articles, and services."
+>
+  <div class="pt-32 pb-8 bg-gradient-to-b from-gray-950 to-white dark:to-surface-dark">
+    <div class="container-custom text-center">
+      <h1 class="font-display font-black text-4xl md:text-6xl text-white mb-6">Search</h1>
+      <!-- Search input -->
+      <div class="relative max-w-2xl mx-auto">
+        <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none"
+             fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+        </svg>
+        <input
+          id="global-search"
+          type="search"
+          placeholder="Search portfolio, blog, services…"
+          class="input pl-12 py-4 text-lg text-center"
+          autofocus
+        />
+      </div>
+    </div>
+  </div>
+
+  <section class="section bg-white dark:bg-surface-dark min-h-screen">
+    <div class="container-custom max-w-4xl">
+      <!-- Tabs -->
+      <div class="flex flex-wrap gap-2 mb-8">
+        {['All', 'Blog', 'Portfolio', 'Services'].map((tab) => (
+          <button
+            class:list={['filter-btn', tab === 'All' ? 'active' : '']}
+            data-tab={tab.toLowerCase()}
+          >
+            {tab}
+          </button>
+        ))}
+      </div>
+
+      <!-- Results count -->
+      <p id="search-count" class="text-sm text-gray-400 mb-6">
+        Enter a search term above
+      </p>
+
+      <!-- Results -->
+      <div id="search-results" class="space-y-4"></div>
+
+      <!-- Empty state -->
+      <div id="search-empty" class="hidden text-center py-16">
+        <div class="text-5xl mb-4">🔍</div>
+        <h3 class="font-display font-bold text-xl text-gray-900 dark:text-white mb-2">No results found</h3>
+        <p class="text-gray-400">Try a different search term or browse the sections above.</p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script define:vars={{ searchIndex }}>
+  // Client-side Fuse.js search
+  const loadFuse = async () => {
+    const { default: Fuse } = await import('https://cdn.jsdelivr.net/npm/fuse.js@7/dist/fuse.mjs');
+
+    const fuse = new Fuse(searchIndex, {
+      keys: [
+        { name: 'title', weight: 0.4 },
+        { name: 'excerpt', weight: 0.3 },
+        { name: 'tags', weight: 0.2 },
+        { name: 'category', weight: 0.1 },
+      ],
+      threshold: 0.35,
+      minMatchCharLength: 2,
+      includeScore: true,
+    });
+
+    const input = document.getElementById('global-search');
+    const resultsEl = document.getElementById('search-results');
+    const countEl = document.getElementById('search-count');
+    const emptyEl = document.getElementById('search-empty');
+    const tabs = document.querySelectorAll('[data-tab]');
+
+    let activeTab = 'all';
+    let results = [];
+
+    const typeIcons = { blog: '📝', portfolio: '🎬', service: '⚡' };
+    const typeBadge = { blog: 'Blog', portfolio: 'Portfolio', service: 'Service' };
+
+    const render = () => {
+      const filtered = activeTab === 'all'
+        ? results
+        : results.filter(r => r.item.type === activeTab.replace('services', 'service'));
+
+      if (!filtered.length && input.value) {
+        emptyEl?.classList.remove('hidden');
+        resultsEl.innerHTML = '';
+        countEl.textContent = 'No results';
+        return;
+      }
+
+      emptyEl?.classList.add('hidden');
+      countEl.textContent = input.value
+        ? `${filtered.length} result${filtered.length !== 1 ? 's' : ''}`
+        : 'Enter a search term above';
+
+      resultsEl.innerHTML = filtered.map(({ item }) => `
+        <a href="${item.url}" class="flex gap-4 p-4 rounded-xl bg-gray-50 dark:bg-white/5 hover:bg-brand-50 dark:hover:bg-brand-950/30 border border-gray-100 dark:border-white/5 hover:border-brand-200 dark:hover:border-brand-800 transition-all group">
+          ${item.image ? `<img src="${item.image}" alt="${item.title}" class="w-20 h-14 rounded-lg object-cover shrink-0 hidden sm:block" loading="lazy">` : `<div class="w-14 h-14 rounded-lg bg-brand-gradient flex items-center justify-center text-2xl shrink-0 hidden sm:flex">${typeIcons[item.type] || '📄'}</div>`}
+          <div class="min-w-0">
+            <div class="flex items-center gap-2 mb-1">
+              <span class="tag text-xs">${typeBadge[item.type] || item.type}</span>
+              ${item.category ? `<span class="text-xs text-gray-400">${item.category}</span>` : ''}
+            </div>
+            <h3 class="font-display font-bold text-gray-900 dark:text-white group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors mb-1 truncate">${item.title}</h3>
+            <p class="text-sm text-gray-500 dark:text-gray-400 line-clamp-2">${item.excerpt}</p>
+          </div>
+        </a>
+      `).join('');
+    };
+
+    input?.addEventListener('input', (e) => {
+      const q = e.target.value;
+      results = q.length >= 2 ? fuse.search(q) : [];
+      render();
+    });
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        activeTab = tab.dataset.tab;
+        tabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        render();
+      });
+    });
+
+    // Check URL params
+    const q = new URLSearchParams(window.location.search).get('q');
+    if (q && input) {
+      input.value = q;
+      results = fuse.search(q);
+      render();
+    }
+  };
+
+  loadFuse();
+</script>

@@ -1,0 +1,21 @@
+{
+  "name": "SM SAAD Portfolio",
+  "short_name": "SM SAAD",
+  "description": "Video Editor · Motion Graphics · AI Content Creator",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0a0f",
+  "theme_color": "#6272f1",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["portfolio", "creative"],
+  "lang": "en",
+  "dir": "ltr"
+}

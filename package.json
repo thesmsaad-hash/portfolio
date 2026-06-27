@@ -1,0 +1,30 @@
+{
+  "name": "smsaad-portfolio",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "SM SAAD — Video Editor, Motion Graphics & AI Content Creator Portfolio",
+  "author": "SM SAAD <hello@smsaad.online>",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "check": "astro check"
+  },
+  "dependencies": {
+    "@astrojs/rss": "latest",
+    "@astrojs/sitemap": "latest",
+    "@astrojs/tailwind": "latest",
+    "@fontsource/inter": "latest",
+    "@fontsource/outfit": "latest",
+    "@tailwindcss/forms": "latest",
+    "@tailwindcss/typography": "latest",
+    "astro": "^7.0.3",
+    "fuse.js": "latest",
+    "sharp": "latest",
+    "tailwindcss": "^3.4.19"
+  }
+}

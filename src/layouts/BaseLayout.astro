@@ -1,0 +1,208 @@
+---
+import '../styles/global.css';
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
+import { SITE_NAME, SITE_DESCRIPTION, SITE_OG_IMAGE, SITE_URL, getFullTitle } from '../utils/seo';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  type?: 'website' | 'article' | 'profile';
+  noIndex?: boolean;
+  canonical?: string;
+  schema?: object | object[];
+  class?: string;
+}
+
+const {
+  title = SITE_NAME,
+  description = SITE_DESCRIPTION,
+  image = SITE_OG_IMAGE,
+  type = 'website',
+  noIndex = false,
+  canonical,
+  schema,
+  class: className = '',
+} = Astro.props;
+
+const fullTitle = getFullTitle(title);
+const canonicalUrl = canonical || Astro.url.href;
+const ogImage = image.startsWith('http') ? image : `${SITE_URL}${image}`;
+---
+
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3126692434607307" crossorigin="anonymous"></script>
+
+
+    <!-- Primary Meta -->
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content="SM SAAD" />
+    <meta name="robots" content={noIndex ? 'noindex, nofollow' : 'index, follow'} />
+    <link rel="canonical" href={canonicalUrl} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content={type} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content={SITE_NAME} />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@smsaad" />
+    <meta name="twitter:creator" content="@smsaad" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" content="#6272f1" />
+
+    <!-- RSS -->
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title={`${SITE_NAME} Blog RSS`}
+      href="/rss.xml"
+    />
+
+    <!-- Sitemap -->
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <!-- Cloudflare Web Analytics -->
+    <script
+      defer
+      src="https://static.cloudflareinsights.com/beacon.min.js"
+      data-cf-beacon='{"token": "YOUR_CF_ANALYTICS_TOKEN"}'></script>
+
+    <!-- JSON-LD Schema -->
+    {schema && (
+      <script type="application/ld+json" set:html={JSON.stringify(Array.isArray(schema) ? schema : [schema])} />
+    )}
+
+    <!-- Theme init (prevent flash) -->
+    <script is:inline>
+      const theme = (() => {
+        if (typeof localStorage !== 'undefined') {
+          const stored = localStorage.getItem('theme');
+          if (stored) return stored;
+        }
+        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      })();
+      document.documentElement.classList.toggle('dark', theme === 'dark');
+    </script>
+  </head>
+
+  <body class={`min-h-screen flex flex-col ${className}`}>
+    <!-- Reading progress bar (shown on blog posts) -->
+    <div id="reading-progress" aria-hidden="true"></div>
+
+    <Header />
+
+    <main id="main-content" class="flex-1" tabindex="-1">
+      <slot />
+    </main>
+
+    <Footer />
+
+    <!-- View Transitions + Scroll animations -->
+    <script>
+      // Intersection Observer for scroll animations
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px',
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in-view');
+            // Don't unobserve — keep in view state
+          }
+        });
+      }, observerOptions);
+
+      document.querySelectorAll('[data-animate]').forEach((el) => {
+        observer.observe(el);
+      });
+
+      // Re-run after navigation
+      document.addEventListener('astro:page-load', () => {
+        document.querySelectorAll('[data-animate]').forEach((el) => {
+          observer.observe(el);
+        });
+      });
+    </script>
+
+    <!-- Mobile menu toggle -->
+    <script>
+      const menuBtn = document.getElementById('mobile-menu-btn');
+      const mobileMenu = document.getElementById('mobile-menu');
+
+      menuBtn?.addEventListener('click', () => {
+        const isOpen = mobileMenu?.classList.contains('translate-x-0');
+        mobileMenu?.classList.toggle('translate-x-0', !isOpen);
+        mobileMenu?.classList.toggle('translate-x-full', isOpen);
+        menuBtn.setAttribute('aria-expanded', String(!isOpen));
+      });
+
+      // Close on backdrop click
+      document.addEventListener('click', (e) => {
+        if (
+          mobileMenu &&
+          !mobileMenu.contains(e.target as Node) &&
+          !menuBtn?.contains(e.target as Node)
+        ) {
+          mobileMenu.classList.remove('translate-x-0');
+          mobileMenu.classList.add('translate-x-full');
+        }
+      });
+    </script>
+
+    <style is:global>
+      /* Scroll animation states */
+      [data-animate] {
+        opacity: 0;
+        transform: translateY(24px);
+        transition: opacity 0.6s ease, transform 0.6s ease;
+      }
+      [data-animate].in-view {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      [data-animate="fade"] {
+        transform: none;
+      }
+      [data-animate="slide-left"] {
+        transform: translateX(-24px);
+      }
+      [data-animate="slide-right"] {
+        transform: translateX(24px);
+      }
+      [data-animate="scale"] {
+        transform: scale(0.95);
+      }
+      [data-animate="slide-left"].in-view,
+      [data-animate="slide-right"].in-view,
+      [data-animate="scale"].in-view {
+        transform: none;
+      }
+    </style>
+  </body>
+</html>

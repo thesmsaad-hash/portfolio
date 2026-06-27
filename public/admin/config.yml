@@ -1,0 +1,185 @@
+backend:
+  name: github
+  repo: YOUR_GITHUB_USERNAME/smsaad-portfolio
+  branch: main
+  base_url: https://YOUR_OAUTH_PROXY.pages.dev  # Your Cloudflare OAuth proxy URL
+
+# Media library
+media_folder: public/images
+public_folder: /images
+
+# Site URL
+site_url: https://smsaad.online
+display_url: https://smsaad.online
+logo_url: /favicon.svg
+
+# Show Preview Links
+show_preview_links: true
+
+# Editor
+editor:
+  preview: true
+
+# ── Collections ──────────────────────────────────────────
+collections:
+  # ── Blog Posts ──────────────────────────────────────────
+  - name: blog
+    label: Blog Posts
+    label_singular: Blog Post
+    folder: src/content/blog
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Excerpt, name: excerpt, widget: text }
+      - { label: Date, name: date, widget: datetime }
+      - { label: Author, name: author, widget: string, default: SM SAAD }
+      - { label: Featured Image, name: featuredImage, widget: image, required: false }
+      - { label: Featured Post, name: featured, widget: boolean, default: false }
+      - { label: Draft, name: draft, widget: boolean, default: true }
+      - { label: Reading Time (min), name: readingTime, widget: number, required: false }
+      - label: Categories
+        name: categories
+        widget: list
+        default: [Video Editing]
+        field: { label: Category, name: category, widget: string }
+      - label: Tags
+        name: tags
+        widget: list
+        required: false
+        field: { label: Tag, name: tag, widget: string }
+      - { label: SEO Title, name: seoTitle, widget: string, required: false }
+      - { label: SEO Description, name: seoDescription, widget: text, required: false }
+      - { label: Body, name: body, widget: markdown }
+
+  # ── Portfolio ────────────────────────────────────────────
+  - name: portfolio
+    label: Portfolio Projects
+    label_singular: Portfolio Project
+    folder: src/content/portfolio
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    fields:
+      - { label: Title, name: title, widget: string }
+      - label: Category
+        name: category
+        widget: select
+        options:
+          - YouTube Editing
+          - Podcast Editing
+          - Shorts & Reels
+          - Motion Graphics
+          - VFX
+          - Thumbnail Design
+          - AI Content
+          - Social Media Ads
+      - label: Filter Tag
+        name: filterTag
+        widget: select
+        options:
+          - Video Editing
+          - Motion Graphics
+          - VFX
+          - AI
+          - Branding
+      - { label: Client, name: client, widget: string }
+      - { label: Short Description, name: shortDescription, widget: text }
+      - { label: Thumbnail, name: thumbnail, widget: image }
+      - label: Gallery
+        name: gallery
+        widget: list
+        required: false
+        field: { label: Image, name: image, widget: image }
+      - label: Tools Used
+        name: tools
+        widget: list
+        field: { label: Tool, name: tool, widget: string }
+      - label: Software
+        name: software
+        widget: list
+        required: false
+        field: { label: Software, name: sw, widget: string }
+      - { label: Completion Date, name: completionDate, widget: datetime }
+      - { label: Video URL, name: videoUrl, widget: string, required: false }
+      - label: Video Platform
+        name: videoPlatform
+        widget: select
+        required: false
+        options:
+          - youtube
+          - vimeo
+          - instagram
+      - { label: Video Duration, name: videoDuration, widget: string, required: false, hint: "e.g. 12:34" }
+      - { label: Challenge, name: challenge, widget: text, required: false }
+      - { label: Solution, name: solution, widget: text, required: false }
+      - { label: Result, name: result, widget: text, required: false }
+      - { label: Client Feedback, name: clientFeedback, widget: text, required: false }
+      - { label: Featured, name: featured, widget: boolean, default: false }
+      - { label: Before Image, name: beforeImage, widget: image, required: false }
+      - { label: After Image, name: afterImage, widget: image, required: false }
+      - { label: Download URL, name: downloadUrl, widget: string, required: false }
+      - { label: Order, name: order, widget: number, default: 99 }
+      - { label: Body, name: body, widget: markdown, required: false }
+
+  # ── Services ─────────────────────────────────────────────
+  - name: services-cms
+    label: Services
+    label_singular: Service
+    folder: src/content/services
+    create: true
+    delete: true
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Icon (emoji), name: icon, widget: string }
+      - { label: Description, name: description, widget: text }
+      - label: Features
+        name: features
+        widget: list
+        field: { label: Feature, name: feature, widget: string }
+      - { label: Starting Price, name: startingPrice, widget: string, required: false }
+      - { label: Turnaround, name: turnaround, widget: string, required: false }
+      - { label: Featured, name: featured, widget: boolean, default: false }
+      - { label: Order, name: order, widget: number, default: 99 }
+
+  # ── Testimonials ─────────────────────────────────────────
+  - name: testimonials-cms
+    label: Testimonials
+    label_singular: Testimonial
+    folder: src/content/testimonials
+    create: true
+    delete: true
+    fields:
+      - { label: Name, name: name, widget: string }
+      - { label: Role, name: role, widget: string }
+      - { label: Company, name: company, widget: string }
+      - { label: Avatar, name: avatar, widget: image, required: false }
+      - { label: Quote, name: quote, widget: text }
+      - { label: Rating (1-5), name: rating, widget: number, default: 5, min: 1, max: 5 }
+      - { label: Platform, name: platform, widget: string, required: false }
+
+  # ── Site Settings ────────────────────────────────────────
+  - name: settings
+    label: Site Settings
+    delete: false
+    editor:
+      preview: false
+    files:
+      - name: general
+        label: General Settings
+        file: src/data/site-settings.json
+        fields:
+          - { label: Site Title, name: siteTitle, widget: string }
+          - { label: Tagline, name: tagline, widget: string }
+          - { label: Email, name: email, widget: string }
+          - { label: Cloudflare Analytics Token, name: cfAnalyticsToken, widget: string, required: false }
+          - { label: Google Analytics ID, name: gaId, widget: string, required: false }
+          - label: Social Links
+            name: socialLinks
+            widget: object
+            fields:
+              - { label: YouTube URL, name: youtube, widget: string, required: false }
+              - { label: Instagram URL, name: instagram, widget: string, required: false }
+              - { label: LinkedIn URL, name: linkedin, widget: string, required: false }
+              - { label: Twitter/X URL, name: twitter, widget: string, required: false }

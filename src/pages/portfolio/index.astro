@@ -1,0 +1,213 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const allProjects = await getCollection('portfolio');
+const projects = allProjects.sort((a, b) => a.data.order - b.data.order);
+
+const filterTags = ['All', 'Video Editing', 'Motion Graphics', 'VFX', 'AI', 'Branding'];
+---
+
+<BaseLayout
+  title="Portfolio"
+  description="Explore SM SAAD's portfolio — YouTube editing, motion graphics, VFX, AI content, and branding videos for creators and brands worldwide."
+>
+  <!-- Page Header -->
+  <div class="pt-32 pb-16 bg-gradient-to-b from-gray-950 to-white dark:to-surface-dark relative overflow-hidden">
+    <div class="absolute inset-0 pointer-events-none">
+      <div class="absolute top-0 left-1/3 w-96 h-96 rounded-full blur-3xl bg-brand-600/10"></div>
+    </div>
+    <div class="container-custom relative text-center">
+      <p class="section-label mb-3">My Work</p>
+      <h1 class="font-display font-black text-5xl md:text-7xl text-white mb-4 leading-none">
+        Portfolio <span class="text-2xl">⭐</span>
+      </h1>
+      <p class="text-gray-400 text-lg max-w-xl mx-auto">
+        {projects.length}+ projects delivered. Every pixel crafted with intention.
+      </p>
+    </div>
+  </div>
+
+  <!-- Filter + Search + Grid -->
+  <section class="section bg-white dark:bg-surface-dark">
+    <div class="container-custom">
+      <!-- Filter bar -->
+      <div class="flex flex-wrap items-center gap-3 mb-8" id="filter-bar">
+        {filterTags.map((tag) => (
+          <button
+            class:list={['filter-btn', tag === 'All' ? 'active' : '']}
+            data-filter={tag}
+          >
+            {tag}
+          </button>
+        ))}
+
+        <!-- Search -->
+        <div class="ml-auto relative">
+          <input
+            id="portfolio-search"
+            type="search"
+            placeholder="Search projects…"
+            class="input pl-9 w-48 md:w-64 text-sm py-2"
+          />
+          <svg
+            class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none"
+            fill="none" stroke="currentColor" viewBox="0 0 24 24"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Results count -->
+      <p id="results-count" class="text-sm text-gray-400 mb-6">
+        Showing {projects.length} projects
+      </p>
+
+      <!-- Grid -->
+      <div id="portfolio-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {projects.map((project, i) => (
+          <article
+            class="group card overflow-hidden project-card"
+            data-filter={project.data.filterTag}
+            data-title={project.data.title.toLowerCase()}
+            data-desc={project.data.shortDescription.toLowerCase()}
+            data-tools={project.data.tools.join(' ').toLowerCase()}
+            data-animate
+            style={`animation-delay: ${i * 60}ms`}
+          >
+            <!-- Thumbnail -->
+            <div class="relative overflow-hidden aspect-video bg-gray-100 dark:bg-gray-800">
+              <img
+                src={project.data.thumbnail}
+                alt={project.data.title}
+                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                loading="lazy"
+                decoding="async"
+              />
+              <!-- Overlay -->
+              <div
+                class="absolute inset-0 bg-gradient-to-t from-gray-900/90 via-gray-900/30 to-transparent
+                       opacity-0 group-hover:opacity-100 transition-all duration-300
+                       flex flex-col justify-end p-4 gap-2"
+              >
+                <div class="flex flex-wrap gap-2">
+                  {project.data.tools.slice(0, 3).map((tool) => (
+                    <span class="px-2 py-0.5 rounded-md text-xs bg-white/20 text-white backdrop-blur-sm">
+                      {tool}
+                    </span>
+                  ))}
+                </div>
+                <a
+                  href={`/portfolio/${project.id}`}
+                  class="btn-primary text-sm py-2 w-full justify-center"
+                >
+                  View Project →
+                </a>
+              </div>
+
+              <!-- Badges -->
+              <div class="absolute top-3 left-3 flex flex-col gap-1.5">
+                <span class="tag text-xs">{project.data.category}</span>
+              </div>
+              {project.data.videoDuration && (
+                <span class="absolute top-3 right-3 px-2 py-1 rounded-md bg-black/70 text-white text-xs font-mono">
+                  {project.data.videoDuration}
+                </span>
+              )}
+              {project.data.videoPlatform && (
+                <div class="absolute bottom-3 right-3">
+                  <span class="px-2 py-1 rounded-md text-xs font-semibold
+                               bg-red-600 text-white capitalize">
+                    {project.data.videoPlatform}
+                  </span>
+                </div>
+              )}
+            </div>
+
+            <!-- Info -->
+            <div class="p-5">
+              <h2 class="font-display font-bold text-lg text-gray-900 dark:text-white mb-1 line-clamp-1">
+                {project.data.title}
+              </h2>
+              <p class="text-sm text-gray-500 dark:text-gray-400 line-clamp-2 mb-3">
+                {project.data.shortDescription}
+              </p>
+              <div class="flex items-center justify-between">
+                <span class="text-xs text-gray-400">{project.data.client}</span>
+                <span class="text-xs text-gray-400">
+                  {new Intl.DateTimeFormat('en-US', { month: 'short', year: 'numeric' }).format(project.data.completionDate)}
+                </span>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <!-- No results state -->
+      <div id="no-results" class="hidden text-center py-20">
+        <div class="text-5xl mb-4">🔍</div>
+        <h3 class="font-display font-bold text-xl text-gray-900 dark:text-white mb-2">No projects found</h3>
+        <p class="text-gray-400">Try a different filter or search term.</p>
+        <button id="reset-filter" class="btn-outline mt-6">Clear Filters</button>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  // Filter + search logic
+  const cards = document.querySelectorAll('.project-card') as NodeListOf<HTMLElement>;
+  const filterBtns = document.querySelectorAll('[data-filter]') as NodeListOf<HTMLButtonElement>;
+  const searchInput = document.getElementById('portfolio-search') as HTMLInputElement;
+  const countEl = document.getElementById('results-count');
+  const noResults = document.getElementById('no-results');
+  const resetBtn = document.getElementById('reset-filter');
+
+  let activeFilter = 'All';
+  let searchQuery = '';
+
+  function applyFilters() {
+    let visible = 0;
+    cards.forEach((card) => {
+      const filterMatch =
+        activeFilter === 'All' || card.dataset.filter === activeFilter;
+      const q = searchQuery.toLowerCase();
+      const searchMatch =
+        !q ||
+        card.dataset.title?.includes(q) ||
+        card.dataset.desc?.includes(q) ||
+        card.dataset.tools?.includes(q);
+
+      const show = filterMatch && searchMatch;
+      card.style.display = show ? '' : 'none';
+      if (show) visible++;
+    });
+
+    if (countEl) countEl.textContent = `Showing ${visible} project${visible !== 1 ? 's' : ''}`;
+    if (noResults) noResults.classList.toggle('hidden', visible > 0);
+  }
+
+  filterBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      activeFilter = btn.dataset.filter || 'All';
+      filterBtns.forEach((b) => b.classList.remove('active'));
+      btn.classList.add('active');
+      applyFilters();
+    });
+  });
+
+  searchInput?.addEventListener('input', (e) => {
+    searchQuery = (e.target as HTMLInputElement).value;
+    applyFilters();
+  });
+
+  resetBtn?.addEventListener('click', () => {
+    activeFilter = 'All';
+    searchQuery = '';
+    if (searchInput) searchInput.value = '';
+    filterBtns.forEach((b) => b.classList.toggle('active', b.dataset.filter === 'All'));
+    applyFilters();
+  });
+</script>

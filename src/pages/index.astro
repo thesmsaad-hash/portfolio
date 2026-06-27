@@ -1,0 +1,29 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/home/Hero.astro';
+import Statistics from '../components/home/Statistics.astro';
+import FeaturedProjects from '../components/home/FeaturedProjects.astro';
+import LatestBlog from '../components/home/LatestBlog.astro';
+import ClientLogos from '../components/home/ClientLogos.astro';
+import Testimonials from '../components/home/Testimonials.astro';
+import ServicesPreview from '../components/home/ServicesPreview.astro';
+import Skills from '../components/home/Skills.astro';
+import ContactCTA from '../components/home/ContactCTA.astro';
+import { generatePersonSchema, generateWebsiteSchema } from '../utils/seo';
+---
+
+<BaseLayout
+  title="SM SAAD"
+  description="Professional Video Editor, Motion Graphics Artist & AI Content Creator. Creating cinematic content for YouTube, brands, and creators worldwide."
+  schema={[generatePersonSchema(), generateWebsiteSchema()]}
+>
+  <Hero />
+  <Statistics />
+  <FeaturedProjects />
+  <ClientLogos />
+  <LatestBlog />
+  <ServicesPreview />
+  <Testimonials />
+  <Skills />
+  <ContactCTA />
+</BaseLayout>

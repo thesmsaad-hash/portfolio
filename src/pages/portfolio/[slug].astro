@@ -1,0 +1,378 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('portfolio');
+  return projects.map((project) => ({
+    params: { slug: project.id },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+const { Content } = await render(project);
+
+const allProjects = await getCollection('portfolio');
+const related = allProjects
+  .filter(
+    (p) =>
+      p.id !== project.id &&
+      (p.data.category === project.data.category || p.data.filterTag === project.data.filterTag)
+  )
+  .slice(0, 3);
+
+const videoPlatformLabel = {
+  youtube: 'YouTube',
+  vimeo: 'Vimeo',
+  instagram: 'Instagram Reel',
+};
+---
+
+<BaseLayout
+  title={project.data.title}
+  description={project.data.shortDescription}
+  image={project.data.thumbnail}
+  type="website"
+>
+  <!-- Hero Banner -->
+  <div class="pt-16 relative">
+    <div class="relative h-[50vh] md:h-[65vh] overflow-hidden">
+      <img
+        src={project.data.thumbnail}
+        alt={project.data.title}
+        class="w-full h-full object-cover"
+        loading="eager"
+      />
+      <div class="absolute inset-0 bg-gradient-to-t from-gray-950 via-gray-950/50 to-transparent"></div>
+
+      <!-- Hero content -->
+      <div class="absolute bottom-0 left-0 right-0 p-8 md:p-12">
+        <div class="container-custom">
+          <div class="flex flex-wrap gap-2 mb-4">
+            <span class="tag">{project.data.category}</span>
+            {project.data.videoPlatform && (
+              <span class="tag-accent">{videoPlatformLabel[project.data.videoPlatform]}</span>
+            )}
+            {project.data.videoDuration && (
+              <span class="px-3 py-1 rounded-full bg-black/50 text-white text-xs font-mono border border-white/20">
+                {project.data.videoDuration}
+              </span>
+            )}
+          </div>
+          <h1 class="font-display font-black text-4xl md:text-6xl text-white mb-3 leading-tight">
+            {project.data.title}
+          </h1>
+          <p class="text-gray-300 text-lg max-w-2xl">{project.data.shortDescription}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main content -->
+  <div class="section bg-white dark:bg-surface-dark">
+    <div class="container-custom">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+        <!-- Content column -->
+        <div class="lg:col-span-2 space-y-12">
+
+          <!-- Video Embed -->
+          {project.data.videoUrl && (
+            <div>
+              <h2 class="font-display font-bold text-2xl text-gray-900 dark:text-white mb-4">
+                Project Video
+              </h2>
+              <div class="video-embed">
+                {project.data.videoPlatform === 'youtube' && (
+                  <iframe
+                    src={`https://www.youtube.com/embed/${project.data.videoUrl.split('v=')[1] || project.data.videoUrl.split('/').pop()}`}
+                    title={project.data.title}
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen
+                    loading="lazy"
+                  ></iframe>
+                )}
+                {project.data.videoPlatform === 'vimeo' && (
+                  <iframe
+                    src={`https://player.vimeo.com/video/${project.data.videoUrl.split('/').pop()}`}
+                    title={project.data.title}
+                    frameborder="0"
+                    allow="autoplay; fullscreen; picture-in-picture"
+                    allowfullscreen
+                    loading="lazy"
+                  ></iframe>
+                )}
+                {project.data.videoPlatform === 'instagram' && (
+                  <iframe
+                    src={`${project.data.videoUrl}embed`}
+                    title={project.data.title}
+                    frameborder="0"
+                    scrolling="no"
+                    allowtransparency
+                    loading="lazy"
+                  ></iframe>
+                )}
+              </div>
+            </div>
+          )}
+
+          <!-- Before/After Slider -->
+          {project.data.beforeImage && project.data.afterImage && (
+            <div>
+              <h2 class="font-display font-bold text-2xl text-gray-900 dark:text-white mb-4">
+                Before &amp; After
+              </h2>
+              <div id="ba-slider" class="ba-slider rounded-2xl overflow-hidden select-none" style="height: 400px;">
+                <!-- After (background) -->
+                <div class="absolute inset-0">
+                  <img src={project.data.afterImage} alt="After" class="w-full h-full object-cover" draggable="false" />
+                  <div class="absolute top-3 right-3 tag-accent text-xs">AFTER</div>
+                </div>
+                <!-- Before (clip) -->
+                <div id="ba-before" class="absolute inset-0 overflow-hidden" style="width: 50%;">
+                  <img src={project.data.beforeImage} alt="Before"
+                       class="absolute inset-0 w-full h-full object-cover" style="width: 200%" draggable="false" />
+                  <div class="absolute top-3 left-3 tag text-xs">BEFORE</div>
+                </div>
+                <!-- Handle -->
+                <div id="ba-handle" class="ba-handle" style="left: 50%;">
+                  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
+                              w-10 h-10 bg-white rounded-full shadow-lg z-20
+                              flex items-center justify-center">
+                    <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M8 9l-3 3 3 3m8-6l3 3-3 3"/>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          <!-- Project Description -->
+          <div class="prose prose-gray dark:prose-dark max-w-none">
+            <Content />
+          </div>
+
+          <!-- Challenge / Solution / Result -->
+          {(project.data.challenge || project.data.solution || project.data.result) && (
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {project.data.challenge && (
+                <div class="glass-card border-l-4 border-red-500">
+                  <div class="text-2xl mb-2">⚡</div>
+                  <h3 class="font-display font-bold text-lg mb-2 text-gray-900 dark:text-white">Challenge</h3>
+                  <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">{project.data.challenge}</p>
+                </div>
+              )}
+              {project.data.solution && (
+                <div class="glass-card border-l-4 border-brand-500">
+                  <div class="text-2xl mb-2">💡</div>
+                  <h3 class="font-display font-bold text-lg mb-2 text-gray-900 dark:text-white">Solution</h3>
+                  <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">{project.data.solution}</p>
+                </div>
+              )}
+              {project.data.result && (
+                <div class="glass-card border-l-4 border-green-500">
+                  <div class="text-2xl mb-2">🎯</div>
+                  <h3 class="font-display font-bold text-lg mb-2 text-gray-900 dark:text-white">Result</h3>
+                  <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">{project.data.result}</p>
+                </div>
+              )}
+            </div>
+          )}
+
+          <!-- Client Feedback -->
+          {project.data.clientFeedback && (
+            <blockquote class="testimonial-card glass-card">
+              <p class="text-gray-700 dark:text-gray-300 italic text-lg leading-relaxed mb-4">
+                "{project.data.clientFeedback}"
+              </p>
+              <cite class="text-sm font-semibold text-brand-600 dark:text-brand-400 not-italic">
+                — {project.data.client}
+              </cite>
+            </blockquote>
+          )}
+        </div>
+
+        <!-- Sidebar -->
+        <aside class="space-y-6">
+          <!-- Project info card -->
+          <div class="glass-card sticky top-24">
+            <h3 class="font-display font-bold text-lg text-gray-900 dark:text-white mb-4">
+              Project Details
+            </h3>
+
+            <dl class="space-y-4 text-sm">
+              <div>
+                <dt class="text-gray-400 text-xs uppercase tracking-wider mb-1">Client</dt>
+                <dd class="font-semibold text-gray-900 dark:text-white">{project.data.client}</dd>
+              </div>
+              <div>
+                <dt class="text-gray-400 text-xs uppercase tracking-wider mb-1">Category</dt>
+                <dd><span class="tag">{project.data.category}</span></dd>
+              </div>
+              <div>
+                <dt class="text-gray-400 text-xs uppercase tracking-wider mb-1">Completed</dt>
+                <dd class="text-gray-900 dark:text-white">
+                  {new Intl.DateTimeFormat('en-US', { month: 'long', year: 'numeric' }).format(project.data.completionDate)}
+                </dd>
+              </div>
+              {project.data.videoDuration && (
+                <div>
+                  <dt class="text-gray-400 text-xs uppercase tracking-wider mb-1">Duration</dt>
+                  <dd class="font-mono text-gray-900 dark:text-white">{project.data.videoDuration}</dd>
+                </div>
+              )}
+            </dl>
+
+            <!-- Tools -->
+            <div class="mt-6">
+              <h4 class="text-xs uppercase tracking-wider text-gray-400 mb-3">Tools Used</h4>
+              <div class="flex flex-wrap gap-2">
+                {project.data.tools.map((tool) => (
+                  <span class="px-2.5 py-1 rounded-lg text-xs bg-gray-100 dark:bg-gray-800
+                               text-gray-700 dark:text-gray-300 font-medium">
+                    {tool}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            <!-- Software -->
+            {project.data.software && project.data.software.length > 0 && (
+              <div class="mt-4">
+                <h4 class="text-xs uppercase tracking-wider text-gray-400 mb-3">Software</h4>
+                <div class="flex flex-wrap gap-2">
+                  {project.data.software.map((sw) => (
+                    <span class="px-2.5 py-1 rounded-lg text-xs bg-brand-50 dark:bg-brand-950
+                                 text-brand-700 dark:text-brand-300 font-medium">
+                      {sw}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            <!-- Actions -->
+            <div class="mt-6 space-y-3">
+              <a href="/contact" class="btn-primary w-full justify-center text-sm">
+                Hire Me for Similar Work
+              </a>
+              {project.data.downloadUrl && (
+                <a
+                  href={project.data.downloadUrl}
+                  class="btn-outline w-full justify-center text-sm"
+                  download
+                >
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M12 10v6m0 0l-3-3m3 3l3-3M3 17V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+                  </svg>
+                  Download Assets
+                </a>
+              )}
+            </div>
+          </div>
+        </aside>
+      </div>
+
+      <!-- Gallery -->
+      {project.data.gallery.length > 0 && (
+        <div class="mt-16">
+          <h2 class="font-display font-bold text-2xl text-gray-900 dark:text-white mb-6">
+            Project Gallery
+          </h2>
+          <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+            {project.data.gallery.map((img, i) => (
+              <a
+                href={img}
+                target="_blank"
+                rel="noopener"
+                class="group overflow-hidden rounded-xl aspect-video bg-gray-100 dark:bg-gray-800"
+              >
+                <img
+                  src={img}
+                  alt={`${project.data.title} gallery image ${i + 1}`}
+                  class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  loading="lazy"
+                />
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <!-- Related Projects -->
+      {related.length > 0 && (
+        <div class="mt-16">
+          <h2 class="font-display font-bold text-2xl text-gray-900 dark:text-white mb-6">
+            Related Projects
+          </h2>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {related.map((p) => (
+              <a
+                href={`/portfolio/${p.id}`}
+                class="group card overflow-hidden"
+              >
+                <div class="overflow-hidden aspect-video bg-gray-100 dark:bg-gray-800">
+                  <img
+                    src={p.data.thumbnail}
+                    alt={p.data.title}
+                    class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    loading="lazy"
+                  />
+                </div>
+                <div class="p-4">
+                  <span class="tag text-xs mb-2 inline-block">{p.data.category}</span>
+                  <h3 class="font-display font-bold text-base text-gray-900 dark:text-white line-clamp-1">
+                    {p.data.title}
+                  </h3>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  </div>
+</BaseLayout>
+
+<script>
+  // Before/After Slider
+  const slider = document.getElementById('ba-slider');
+  const before = document.getElementById('ba-before');
+  const handle = document.getElementById('ba-handle');
+
+  if (slider && before && handle) {
+    let isDragging = false;
+
+    const updatePosition = (x: number) => {
+      const rect = slider.getBoundingClientRect();
+      const percent = Math.min(Math.max(((x - rect.left) / rect.width) * 100, 0), 100);
+      before.style.width = `${percent}%`;
+      handle.style.left = `${percent}%`;
+    };
+
+    slider.addEventListener('mousedown', (e) => {
+      isDragging = true;
+      updatePosition(e.clientX);
+    });
+
+    slider.addEventListener('touchstart', (e) => {
+      isDragging = true;
+      updatePosition(e.touches[0].clientX);
+    }, { passive: true });
+
+    document.addEventListener('mousemove', (e) => {
+      if (isDragging) updatePosition(e.clientX);
+    });
+
+    document.addEventListener('touchmove', (e) => {
+      if (isDragging) updatePosition(e.touches[0].clientX);
+    }, { passive: true });
+
+    document.addEventListener('mouseup', () => { isDragging = false; });
+    document.addEventListener('touchend', () => { isDragging = false; });
+  }
+</script>
