@@ -21,6 +21,5 @@ export async function GET(context: APIContext) {
         author: post.data.author,
       })),
     customData: `<language>en-us</language>`,
-    stylesheet: '/rss-styles.xsl',
   });
 }
