@@ -27,7 +27,7 @@ export function generatePersonSchema() {
     name: 'SM SAAD',
     url: SITE_URL,
     sameAs: [
-      'https://youtube.com/@smsaad',
+      'https://www.youtube.com/@SaadConnects',
       'https://instagram.com/smsaad',
       'https://linkedin.com/in/smsaad',
       'https://x.com/smsaad',
