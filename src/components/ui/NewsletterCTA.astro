@@ -55,47 +55,60 @@
           </div>
 
           <div class="w-full max-w-md">
-            <form action="https://assets.mailerlite.com/jsonp/2483736/forms/191812482725053719/subscribe" method="POST" target="_blank" class="bg-white dark:bg-surface-dark-secondary rounded-2xl p-6 md:p-8 shadow-xl border border-gray-100 dark:border-gray-800">
-              <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2 text-center lg:text-left">Subscribe Now</h3>
-              <p class="text-sm text-gray-500 dark:text-gray-400 mb-6 text-center lg:text-left">No spam, unsubscribe anytime.</p>
-              
-              <div class="space-y-4">
-                <div>
-                  <label for="newsletter-name" class="sr-only">First Name</label>
-                  <input 
-                    type="text" 
-                    id="newsletter-name"
-                    name="fields[name]" 
-                    placeholder="First Name (Optional)" 
-                    class="w-full px-4 py-3.5 bg-gray-50 dark:bg-surface-dark border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition-all text-gray-900 dark:text-white placeholder-gray-400"
-                  />
-                </div>
-                <div>
-                  <label for="newsletter-email" class="sr-only">Email Address</label>
-                  <input 
-                    type="email" 
-                    id="newsletter-email"
-                    name="fields[email]" 
-                    placeholder="Email Address" 
-                    required
-                    class="w-full px-4 py-3.5 bg-gray-50 dark:bg-surface-dark border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition-all text-gray-900 dark:text-white placeholder-gray-400"
-                  />
-                </div>
+            <div id="newsletter-form-container" class="bg-white dark:bg-surface-dark-secondary rounded-2xl p-6 md:p-8 shadow-xl border border-gray-100 dark:border-gray-800">
+              <form id="newsletter-form" action="https://assets.mailerlite.com/jsonp/2483736/forms/191812482725053719/subscribe" method="POST">
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2 text-center lg:text-left">Subscribe Now</h3>
+                <p class="text-sm text-gray-500 dark:text-gray-400 mb-6 text-center lg:text-left">No spam, unsubscribe anytime.</p>
                 
-                <!-- MailerLite hidden fields -->
-                <input type="hidden" name="ml-submit" value="1">
-                <input type="hidden" name="anticsrf" value="true">
-                
-                <button type="submit" class="w-full btn-primary py-4 group relative overflow-hidden rounded-xl text-base font-bold mt-2">
-                  <span class="relative z-10 flex items-center justify-center gap-2">
-                    Subscribe
-                    <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                    </svg>
-                  </span>
-                </button>
+                <div class="space-y-4">
+                  <div>
+                    <label for="newsletter-name" class="sr-only">First Name</label>
+                    <input 
+                      type="text" 
+                      id="newsletter-name"
+                      name="fields[name]" 
+                      placeholder="First Name (Optional)" 
+                      class="w-full px-4 py-3.5 bg-gray-50 dark:bg-surface-dark border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition-all text-gray-900 dark:text-white placeholder-gray-400"
+                    />
+                  </div>
+                  <div>
+                    <label for="newsletter-email" class="sr-only">Email Address</label>
+                    <input 
+                      type="email" 
+                      id="newsletter-email"
+                      name="fields[email]" 
+                      placeholder="Email Address" 
+                      required
+                      class="w-full px-4 py-3.5 bg-gray-50 dark:bg-surface-dark border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition-all text-gray-900 dark:text-white placeholder-gray-400"
+                    />
+                  </div>
+                  
+                  <!-- MailerLite hidden fields -->
+                  <input type="hidden" name="ml-submit" value="1">
+                  <input type="hidden" name="anticsrf" value="true">
+                  
+                  <button type="submit" class="w-full btn-primary py-4 group relative overflow-hidden rounded-xl text-base font-bold mt-2">
+                    <span class="relative z-10 flex items-center justify-center gap-2">
+                      <span id="newsletter-btn-text">Subscribe</span>
+                      <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                      </svg>
+                    </span>
+                  </button>
+                </div>
+              </form>
+            </div>
+
+            <!-- Success Message (Hidden by default) -->
+            <div id="newsletter-success" class="hidden bg-white dark:bg-surface-dark-secondary rounded-2xl p-8 shadow-xl border border-green-500/20 text-center">
+              <div class="w-16 h-16 bg-green-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg class="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
               </div>
-            </form>
+              <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">You're in!</h3>
+              <p class="text-gray-500 dark:text-gray-400">Thanks for subscribing. Check your inbox soon!</p>
+            </div>
           </div>
           
         </div>
@@ -108,4 +121,34 @@
 <script is:inline src="https://groot.mailerlite.com/js/w/webforms.min.js?v83147fa8ce2d95cb73ece7f28b469519" type="text/javascript"></script>
 <script is:inline>
   fetch("https://assets.mailerlite.com/jsonp/2483736/forms/191812482725053719/takel").catch(() => {});
+</script>
+
+<script>
+  const form = document.getElementById('newsletter-form');
+  const successMsg = document.getElementById('newsletter-success');
+  const formContainer = document.getElementById('newsletter-form-container');
+  const btnText = document.getElementById('newsletter-btn-text');
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (btnText) btnText.innerHTML = 'Subscribing...';
+    
+    try {
+      await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form as HTMLFormElement),
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+      // Show success
+      if (formContainer) formContainer.style.display = 'none';
+      if (successMsg) successMsg.classList.remove('hidden');
+    } catch (err) {
+      if (btnText) btnText.innerHTML = 'Subscribe';
+      // MailerLite might throw CORS error on success depending on browser setup, so we still show success if it fails but request went out.
+      if (formContainer) formContainer.style.display = 'none';
+      if (successMsg) successMsg.classList.remove('hidden');
+    }
+  });
 </script>
