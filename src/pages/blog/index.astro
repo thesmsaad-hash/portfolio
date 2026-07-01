@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import NewsletterCTA from '../../components/ui/NewsletterCTA.astro';
 import { formatDate, estimateReadingTime } from '../../utils/seo';
 
 const posts = await getCollection('blog', ({ data }) => !data.draft);
@@ -168,6 +169,8 @@ const categories = ['All', ...new Set(posts.flatMap((p) => p.data.categories))];
       </div>
     </div>
   </section>
+
+  <NewsletterCTA />
 </BaseLayout>
 
 <script>

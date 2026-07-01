@@ -2,7 +2,7 @@
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { formatDate, estimateReadingTime, generateArticleSchema, SITE_URL } from '../../utils/seo';
-import SubscribeForm from '../../components/blog/SubscribeForm.astro';
+import NewsletterCTA from '../../components/ui/NewsletterCTA.astro';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog', ({ data }) => !data.draft);
@@ -262,7 +262,7 @@ const schema = generateArticleSchema({
           </div>
 
           <!-- Subscribe Form -->
-          <SubscribeForm />
+          <NewsletterCTA />
 
           <!-- Comments & Likes (Disqus) -->
           <div class="mt-16 border-t border-gray-100 dark:border-gray-800 pt-12">
