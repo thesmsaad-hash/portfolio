@@ -56,7 +56,8 @@
 
           <div class="w-full max-w-md">
             <div id="newsletter-form-container" class="bg-white dark:bg-surface-dark-secondary rounded-2xl p-6 md:p-8 shadow-xl border border-gray-100 dark:border-gray-800">
-              <form id="newsletter-form" action="https://assets.mailerlite.com/jsonp/2483736/forms/191812482725053719/subscribe" method="POST">
+              <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
+              <form id="newsletter-form" action="https://assets.mailerlite.com/jsonp/2483736/forms/191812482725053719/subscribe" method="POST" target="hidden_iframe">
                 <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2 text-center lg:text-left">Subscribe Now</h3>
                 <p class="text-sm text-gray-500 dark:text-gray-400 mb-6 text-center lg:text-left">No spam, unsubscribe anytime.</p>
                 
@@ -128,25 +129,17 @@
   const successMsg = document.getElementById('newsletter-success');
   const formContainer = document.getElementById('newsletter-form-container');
   const btnText = document.getElementById('newsletter-btn-text');
+  const iframe = document.getElementById('hidden_iframe');
 
-  form?.addEventListener('submit', async (e) => {
-    e.preventDefault();
+  let isSubmitting = false;
+
+  form?.addEventListener('submit', () => {
+    isSubmitting = true;
     if (btnText) btnText.innerHTML = 'Subscribing...';
-    
-    try {
-      await fetch(form.action, {
-        method: 'POST',
-        body: new FormData(form as HTMLFormElement),
-        headers: {
-          'Accept': 'application/json'
-        }
-      });
-      // Show success
-      if (formContainer) formContainer.style.display = 'none';
-      if (successMsg) successMsg.classList.remove('hidden');
-    } catch (err) {
-      if (btnText) btnText.innerHTML = 'Subscribe';
-      // MailerLite might throw CORS error on success depending on browser setup, so we still show success if it fails but request went out.
+  });
+
+  iframe?.addEventListener('load', () => {
+    if (isSubmitting) {
       if (formContainer) formContainer.style.display = 'none';
       if (successMsg) successMsg.classList.remove('hidden');
     }
